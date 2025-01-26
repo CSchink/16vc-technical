@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { messageToTableFormatter } from "../components/common/utils/helper";
 import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
@@ -47,21 +46,19 @@ export const useWS = () => {
   return {
     sendMessage,
     messageHistory: messages,
-    data: messageToTableFormatter(
-      messages
-        .map((message: any) => {
-          try {
-            const data = JSON.parse(message);
-            if (!data.id) data.id = ulid();
-            return data;
-          } catch (e) {
-            if (e) {
-              return null;
-            }
+    data: messages
+      .map((message: any) => {
+        try {
+          const data = JSON.parse(message);
+          if (!data.id) data.id = ulid();
+          return data;
+        } catch (e) {
+          if (e) {
+            return null;
           }
-        })
-        .filter(Boolean)
-    ),
+        }
+      })
+      .filter(Boolean),
     editMessage,
   };
 };
