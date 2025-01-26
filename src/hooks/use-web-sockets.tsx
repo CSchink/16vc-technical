@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
-import { CHANNELS } from "..//api/schemas/ws.schemas";
+import { CHANNELS } from "../api/schemas/ws.schemas";
+import iTools from "../api/utils/i-tools";
 
 const optionalClientId = "optionalClientId";
 const authUrl = `/.netlify/functions/auth?clientId=${optionalClientId}`;
@@ -25,7 +26,7 @@ export const useWS = () => {
         authUrl,
       });
       const channel = ably.channels.get(CHANNELS.tasks);
-
+      iTools.log(`Publishing message:${outgoing[0]}`);
       channel.publish({ name: "message", data: outgoing[0] });
     }
   });
@@ -39,10 +40,12 @@ export const useWS = () => {
     channel.subscribe("message", (message: Ably.InboundMessage) => {
       setMessages([...messages, message.data]);
     });
+    iTools.log(`Found messages: ${messages}`);
 
     return () => {
       channel.unsubscribe();
       ably.close();
+      iTools.log("Closing connection");
     };
   }, []);
   return {
