@@ -4,7 +4,7 @@ import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 
-const authUrl = `/.netlify/functions/auth`
+const authUrl = `/.netlify/functions/auth`;
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
   const [outgoing, setOutgoing] = useState<any>([]);
@@ -48,10 +48,19 @@ export const useWS = () => {
     sendMessage,
     messageHistory: messages,
     data: messageToTableFormatter(
-      messages.map((message: any) => {
-        if (!message.id) message.id = ulid();
-        return message;
-      })
+      messages
+        .map((message: any) => {
+          try {
+            const data = JSON.parse(message);
+            if (!data.id) data.id = ulid();
+            return data;
+          } catch (e) {
+            if (e) {
+              return null;
+            }
+          }
+        })
+        .filter(Boolean)
     ),
     editMessage,
   };
