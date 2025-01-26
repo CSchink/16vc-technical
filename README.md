@@ -4,16 +4,16 @@ Hosted on [Netlify](https://16vc-technical.netlify.app/)
 
 ## Basic use cases implemented:
 
-# Web Socket Integration
+### Web Socket Integration
 
 - Hook to send, retrieve WebSocket messages
 
-# Task View:
+### Task View:
 
 - List of tasks in a table format with table actions for marking a task as deleted or completed.
 - A "new task" icon boldly visible, for adding a new task.
 
-# Adding a task:
+### Adding a task:
 
 - Click on adding task icon, view a modal with custom input form field for submission.
 - Able to assign name, description, category, with name and category required.
