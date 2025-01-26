@@ -22,32 +22,36 @@ export const useWS = () => {
 
   useEffect(() => {
     if (outgoing.length) {
-      const ably = new Ably.Realtime({
-        authUrl,
-      });
-      const channel = ably.channels.get(CHANNELS.tasks);
-      iTools.log(`Publishing message:${outgoing[0]}`);
-      channel.publish({ name: "message", data: outgoing[0] });
+      (async () => {
+        const ably = await new Ably.Realtime({
+          authUrl,
+        });
+        const channel = ably.channels.get(CHANNELS.tasks);
+        iTools.log(`Publishing message:${outgoing[0]}`);
+        channel.publish("hello-world-message", { message: "Hello world!" });
+        channel.publish(CHANNELS.tasks, { name: "message", data: outgoing[0] });
+      })();
     }
   });
 
   useEffect(() => {
-    const ably = new Ably.Realtime({
-      authUrl,
-    });
-    const channel = ably.channels.get(CHANNELS.tasks);
+    (async () => {
+      const ably = await new Ably.Realtime({
+        authUrl,
+      });
+      const channel = ably.channels.get(CHANNELS.tasks);
 
-    channel.subscribe("message", (message: Ably.InboundMessage) => {
-      setMessages([...messages, message.data]);
-    });
-    iTools.log(`Found messages: ${messages}`);
-
-    return () => {
-      channel.unsubscribe();
-      ably.close();
-      iTools.log("Closing connection");
-    };
-  }, []);
+      channel.subscribe("message", (message: Ably.InboundMessage) => {
+        setMessages([...messages, message.data]);
+      });
+      iTools.log(`Found messages: ${messages}`);
+      return () => {
+        channel.unsubscribe();
+        ably.close();
+        iTools.log("Closing connection");
+      };
+    })();
+  }, [messages]);
   return {
     sendMessage,
     messageHistory: messages,
