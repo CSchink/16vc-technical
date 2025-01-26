@@ -24,6 +24,7 @@ export const useWS = () => {
   useEffect(() => {
     const getMessages = async () => {
       await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
+        console.log(msg)
         setMessages((prev) => [...prev, msg]);
       });
     };
@@ -35,12 +36,20 @@ export const useWS = () => {
     publish(CHANNELS.tasks, { message: messageText });
   };
 
-  const editMessage = (message: any) => {
+  const editMessage = async (message: any) => {
     const update = messages.filter((msg) => {
       console.log(msg.data, message);
       const objectFormat = JSON.parse(msg.data);
       return !isEqual(objectFormat.id, message.id);
     });
+    const targetMessage = messages.find((msg) => {
+      const objectFormat = JSON.parse(msg.data);
+      return isEqual(objectFormat.id, message.id);
+    });
+    await channel.presence.update({
+      message: targetMessage,
+      messageId: targetMessage?.id
+    })
     setMessages(update);
   };
 
