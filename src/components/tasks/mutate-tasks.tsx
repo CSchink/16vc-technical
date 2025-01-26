@@ -55,7 +55,7 @@ export const MutateTask = (props: {
           <Select
             label="Status"
             placeholder="Pick value"
-            data={["ToDo", "InProgress"]}
+            data={["ToDo", "InProgress", "Completed"]}
             {...form.getInputProps("status")}
           />
           <Center>

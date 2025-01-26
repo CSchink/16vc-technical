@@ -1,36 +1,57 @@
 import { useState, useEffect } from "react";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import { messageToTableFormatter } from "../components/common/utils/helper";
 import { ulid } from "ulid";
+import * as Ably from "ably";
+import { isEqual } from "lodash";
 
 export const useWS = () => {
-  const socketUrl = "wss://echo.websocket.org";
-  const [messageHistory, setMessageHistory] = useState<MessageEvent<unknown>[]>(
-    []
-  );
+  const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
+  const [outgoing, setOutgoing] = useState<any>([]);
 
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const sendMessage = (messageText: any) => {
+    setOutgoing([...outgoing, messageText]);
+  };
+
+  const editMessage = (message: any) => {
+    const update = messages.filter((msg) => !isEqual(msg, message));
+    setMessages(update);
+  };
 
   useEffect(() => {
-    if (lastMessage) {
-      setMessageHistory((prev) => prev.concat(lastMessage));
+    if (outgoing.length) {
+      const ably = new Ably.Realtime({
+        authUrl: `/netlify/functions/index`,
+      });
+      const channel = ably.channels.get("my-channel");
+
+      channel.publish({ name: "message", data: outgoing[0] });
     }
-  }, [lastMessage]);
+  });
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState];
+  useEffect(() => {
+    const ably = new Ably.Realtime({
+      authUrl: `/netlify/functions/index`,
+    });
+    const channel = ably.channels.get("my-channel");
 
+    channel.subscribe("message", (message: Ably.InboundMessage) => {
+      setMessages([...messages, message.data]);
+    });
+
+    return () => {
+      channel.unsubscribe();
+      ably.close();
+    };
+  }, []);
   return {
-    connectionStatus,
     sendMessage,
-    messageHistory: messageHistory.map((message: any) => {
-      if (!message.id) message.id = ulid();
-      return message;
-    }),
-    setMessageHistory,
+    messageHistory: messages,
+    data: messageToTableFormatter(
+      messages.map((message: any) => {
+        if (!message.id) message.id = ulid();
+        return message;
+      })
+    ),
+    editMessage,
   };
 };
