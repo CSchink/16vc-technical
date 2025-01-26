@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
@@ -12,15 +12,27 @@ export const useWS = () => {
     Ably.ConnectionStateChange | undefined
   >(undefined);
   const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
-    console.log(message);
     setMessages((prev) => [...prev, message]);
   });
 
   useConnectionStateListener((stateChange) => {
     console.log(readyState);
     console.log(channel);
-    setReadyState(stateChange);
+    if (readyState) {
+      setReadyState(stateChange);
+    }
   });
+
+  useEffect(() => {
+    const getMessages = async () => {
+      await channel.subscribe((msg: Ably.Message) => {
+        console.log("Ably message received", msg);
+      });
+    };
+    if (readyState) {
+      getMessages();
+    }
+  }, [readyState, channel]);
 
   const sendMessage = (messageText: any) => {
     iTools.log(`Sending message: ${messageText}`);
