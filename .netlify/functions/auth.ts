@@ -1,13 +1,12 @@
 import * as dotenv from "dotenv";
 import * as Ably from "ably";
-import { HandlerEvent, HandlerContext } from "@netlify/functions";
+import { HandlerEvent } from "@netlify/functions";
 
 dotenv.config();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function handler(
   event: HandlerEvent,
-  _context: HandlerContext
 ) {
   try {
     if (!process.env.ABLY_API_KEY) {
