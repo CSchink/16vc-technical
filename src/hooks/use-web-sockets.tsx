@@ -28,7 +28,8 @@ export const useWS = () => {
         });
         const channel = ably.channels.get(CHANNELS.tasks);
         iTools.log(`Publishing message:${outgoing[0]}`);
-        channel.publish({ name: "message", data: outgoing[0] });
+        channel.publish("hello-world-message", { message: "Hello world!" });
+        channel.publish(CHANNELS.tasks, { name: "message", data: outgoing[0] });
       })();
     }
   });
