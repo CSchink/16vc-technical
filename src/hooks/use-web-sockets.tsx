@@ -49,7 +49,7 @@ export const useWS = () => {
     messageHistory: messages,
     data: messageToTableFormatter(
       messages.map((message: any) => {
-        console.log(message)
+        if (!message.id) message.id = ulid();
         return message;
       })
     ),
