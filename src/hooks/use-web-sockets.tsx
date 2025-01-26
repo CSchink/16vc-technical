@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { messageToTableFormatter } from "../components/common/utils/helper";
 import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
