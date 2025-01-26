@@ -34,7 +34,7 @@ export const useWS = () => {
     const ably = new Ably.Realtime({
       authUrl,
     });
-    const channel = ably.channels.get("my-channel");
+    const channel = ably.channels.get(CHANNELS.tasks);
 
     channel.subscribe("message", (message: Ably.InboundMessage) => {
       setMessages([...messages, message.data]);
