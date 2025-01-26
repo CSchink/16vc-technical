@@ -16,8 +16,6 @@ export const useWS = () => {
   });
 
   useConnectionStateListener((stateChange) => {
-    console.log(readyState);
-    console.log(channel);
     if (readyState) {
       setReadyState(stateChange);
     }
@@ -26,7 +24,7 @@ export const useWS = () => {
   useEffect(() => {
     const getMessages = async () => {
       await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
-        console.log("Ably message received", msg);
+        setMessages((prev) => [...prev, msg]);
       });
     };
     getMessages();
