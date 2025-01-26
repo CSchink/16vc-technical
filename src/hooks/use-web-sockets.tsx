@@ -25,13 +25,11 @@ export const useWS = () => {
 
   useEffect(() => {
     const getMessages = async () => {
-      await channel.subscribe((msg: Ably.Message) => {
+      await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
         console.log("Ably message received", msg);
       });
     };
-    if (readyState) {
-      getMessages();
-    }
+    getMessages();
   }, [readyState, channel]);
 
   const sendMessage = (messageText: any) => {
