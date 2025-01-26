@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
-import { CHANNELS } from "src/api/schemas/ws.schemas";
+import { CHANNELS } from "..//api/schemas/ws.schemas";
 
 const optionalClientId = "optionalClientId";
 const authUrl = `/.netlify/functions/auth?clientId=${optionalClientId}`;
