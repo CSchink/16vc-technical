@@ -3,7 +3,9 @@ import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
+import iTools from "../api/utils/i-tools";
 import { useChannel } from "ably/react";
+
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
@@ -11,6 +13,7 @@ export const useWS = () => {
     setMessages((prev) => [...prev, message]);
   });
   const sendMessage = (messageText: any) => {
+    iTools.log(`Sending message: ${messageText}`)
     publish(CHANNELS.tasks, { message: messageText });
   };
 
