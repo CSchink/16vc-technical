@@ -3,6 +3,7 @@
 export type TaskStatus = "ToDo" | "Completed" | "Deleted";
 
 export interface Task {
+  id: any;
   name: string;
   category: string;
   description: string;

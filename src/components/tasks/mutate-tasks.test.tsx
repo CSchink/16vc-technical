@@ -6,6 +6,7 @@ const mockData = JSON.stringify({
   category: "test",
   createdAt: new Date().toString(),
   description: "yep",
+  status: "ToDo"
 });
 
 jest.mock("../../hooks/use-web-sockets", () => ({

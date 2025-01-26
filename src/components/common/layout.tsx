@@ -16,7 +16,7 @@ export default function LayOut({ children }: { children: React.ReactNode }) {
       <AppShell.Header>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
       </AppShell.Header>
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      <AppShell.Navbar p="md"></AppShell.Navbar>
       <AppShell.Main className="main">
         <Center>{children}</Center>
       </AppShell.Main>

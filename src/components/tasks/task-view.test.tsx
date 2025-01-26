@@ -6,6 +6,7 @@ const mockData = JSON.stringify({
   category: "test",
   createdAt: new Date().toString(),
   description: "yep",
+  status: "ToDo"
 });
 
 jest.mock("../common/utils/handle-error", () => ({
