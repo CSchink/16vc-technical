@@ -32,7 +32,7 @@ export const useWS = () => {
         channel.publish(CHANNELS.tasks, { name: CHANNELS.tasks, data: outgoing[0] });
       })();
     }
-  });
+  }, [outgoing]);
 
   useEffect(() => {
     (async () => {
