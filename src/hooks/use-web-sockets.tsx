@@ -3,7 +3,8 @@ import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 
-const authUrl = `/.netlify/functions/auth`;
+const optionalClientId = "optionalClientId";
+const authUrl = `/.netlify/functions/auth?clientId=${optionalClientId}`;
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
   const [outgoing, setOutgoing] = useState<any>([]);
