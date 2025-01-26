@@ -1,3 +1,7 @@
 export interface SocketMessage {
-    message: string
+  message: string;
 }
+
+export const CHANNELS = {
+  tasks: "TASK_CHANNEL",
+};
