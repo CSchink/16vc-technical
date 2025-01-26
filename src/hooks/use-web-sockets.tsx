@@ -4,6 +4,8 @@ import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 
+const clientId = "optional";
+
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
   const [outgoing, setOutgoing] = useState<any>([]);
@@ -20,7 +22,8 @@ export const useWS = () => {
   useEffect(() => {
     if (outgoing.length) {
       const ably = new Ably.Realtime({
-        authUrl: "/.netlify/functions/ably-auth",
+        authUrl: `/.netlify/functions
+    //ably-token-request?clientId=${clientId}`,
       });
       const channel = ably.channels.get("my-channel");
 
@@ -30,7 +33,8 @@ export const useWS = () => {
 
   useEffect(() => {
     const ably = new Ably.Realtime({
-      authUrl: "/.netlify/functions/ably-auth",
+      authUrl: `/.netlify/functions
+  //ably-token-request?clientId=${clientId}`,
     });
     const channel = ably.channels.get("my-channel");
 
