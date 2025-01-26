@@ -12,9 +12,17 @@ const initialState = {
   user: {
     name: "Placeholder",
   },
+  dispatch: () => console.log,
 };
 
-const SessionContext = createContext(initialState);
+export interface SessionContext {
+  state: State;
+  dispatch: (action: Action) => void;
+}
+
+const SessionContext = createContext<SessionContext>(
+  (initialState as unknown) as SessionContext
+);
 
 const reducer: Reducer<State, Action> = (
   state: State,
@@ -35,6 +43,7 @@ export const SessionProvider = ({
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
+    //eslint-disable-next-line
     <SessionContext.Provider value={{ state, dispatch }}>
       {children}
     </SessionContext.Provider>
