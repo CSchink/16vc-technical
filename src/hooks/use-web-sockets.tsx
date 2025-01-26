@@ -4,7 +4,7 @@ import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 
-const authUrl = `https://feature-ws-upgrade--16vc-technical.netlify.app/netlify/functions/auth`
+const authUrl = `/netlify/functions/auth`
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
   const [outgoing, setOutgoing] = useState<any>([]);
