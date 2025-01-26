@@ -1,3 +1,0 @@
-[functions]
-  # Sets a custom directory for Netlify Functions
-  directory = "netlify/"
