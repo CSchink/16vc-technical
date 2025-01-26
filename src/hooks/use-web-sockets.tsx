@@ -1,18 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
-import iTools from "../api/utils/i-tools";
+import { useChannel } from "ably/react";
 
-const optionalClientId = "optionalClientId";
-const authUrl = `/.netlify/functions/auth?clientId=${optionalClientId}`;
 export const useWS = () => {
-  const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
-  const [outgoing, setOutgoing] = useState<any>([]);
-
+  const [messages, setMessages] = useState<Ably.Message[]>([]);
+  const { publish } = useChannel(CHANNELS.tasks, (message) => {
+    setMessages((prev) => [...prev, message]);
+  });
   const sendMessage = (messageText: any) => {
-    setOutgoing([...outgoing, messageText]);
+    publish(CHANNELS.tasks, { message: messageText });
   };
 
   const editMessage = (message: any) => {
@@ -20,38 +19,6 @@ export const useWS = () => {
     setMessages(update);
   };
 
-  useEffect(() => {
-    if (outgoing.length) {
-      (async () => {
-        const ably = await new Ably.Realtime({
-          authUrl,
-        });
-        const channel = ably.channels.get(CHANNELS.tasks);
-        iTools.log(`Publishing message:${outgoing[0]}`);
-        channel.publish("hello-world-message", { message: "Hello world!" });
-        channel.publish(CHANNELS.tasks, { name: CHANNELS.tasks, data: outgoing[0] });
-      })();
-    }
-  });
-
-  useEffect(() => {
-    (async () => {
-      const ably = await new Ably.Realtime({
-        authUrl,
-      });
-      const channel = ably.channels.get(CHANNELS.tasks);
-
-      channel.subscribe(CHANNELS.tasks, (message: Ably.InboundMessage) => {
-        setMessages([...messages, message.data]);
-      });
-      iTools.log(`Found messages: ${messages}`);
-      return () => {
-        channel.unsubscribe();
-        ably.close();
-        iTools.log("Closing connection");
-      };
-    })();
-  }, [messages]);
   return {
     sendMessage,
     messageHistory: messages,
