@@ -11,15 +11,13 @@ export const useWS = () => {
   const [readyState, setReadyState] = useState<
     Ably.ConnectionStateChange | undefined
   >(undefined);
-  const { publish } = useChannel(CHANNELS.tasks, (message) => {
+  const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
     setMessages((prev) => [...prev, message]);
   });
 
   useConnectionStateListener((stateChange) => {
-    console.log(stateChange.current); // the new connection state
-    console.log(stateChange.previous); // the previous connection state
-    console.log(stateChange.reason); // if applicable, an error indicating the reason for the connection state change
-    console.log(readyState)
+    console.log(readyState);
+    console.log(channel)
     setReadyState(stateChange);
   });
 
@@ -38,6 +36,7 @@ export const useWS = () => {
     messageHistory: messages,
     data: messages
       .map((message: any) => {
+        console.log(message);
         try {
           const data = JSON.parse(message);
           if (!data.id) data.id = ulid();
