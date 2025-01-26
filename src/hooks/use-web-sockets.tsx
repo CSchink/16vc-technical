@@ -39,7 +39,7 @@ export const useWS = () => {
       .map((message: any) => {
         console.log(message);
         try {
-          const data = JSON.parse(message);
+          const data = JSON.parse(message.data);
           if (!data.id) data.id = ulid();
           return data;
         } catch (e) {
