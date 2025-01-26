@@ -30,15 +30,19 @@ const TaskView = () => {
   const columns: TableColumn[] = [
     {
       accessor: "name",
+      width: 200,
     },
     {
       accessor: "category",
+      width: 200,
     },
     {
       accessor: "description",
+      width: 200,
     },
     {
       accessor: "status",
+      width: 200,
       render: ({ status }: { status: string }) => {
         if (status === "Completed") return status;
         if (status) return status.substring(0, 2) + " " + status.substring(2);
@@ -47,6 +51,7 @@ const TaskView = () => {
     },
     {
       accessor: "actions",
+      width: 200,
       render: (task: Task) => {
         const actions = ["edit"];
         return (

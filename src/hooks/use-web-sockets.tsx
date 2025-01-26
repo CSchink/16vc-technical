@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
@@ -11,17 +11,28 @@ export const useWS = () => {
   const [readyState, setReadyState] = useState<
     Ably.ConnectionStateChange | undefined
   >(undefined);
-  const { publish } = useChannel(CHANNELS.tasks, (message) => {
+  const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
     setMessages((prev) => [...prev, message]);
   });
 
   useConnectionStateListener((stateChange) => {
-    console.log(stateChange.current); // the new connection state
-    console.log(stateChange.previous); // the previous connection state
-    console.log(stateChange.reason); // if applicable, an error indicating the reason for the connection state change
-    console.log(readyState)
-    setReadyState(stateChange);
+    console.log(readyState);
+    console.log(channel);
+    if (readyState) {
+      setReadyState(stateChange);
+    }
   });
+
+  useEffect(() => {
+    const getMessages = async () => {
+      await channel.subscribe((msg: Ably.Message) => {
+        console.log("Ably message received", msg);
+      });
+    };
+    if (readyState) {
+      getMessages();
+    }
+  }, [readyState, channel]);
 
   const sendMessage = (messageText: any) => {
     iTools.log(`Sending message: ${messageText}`);
@@ -39,7 +50,7 @@ export const useWS = () => {
     data: messages
       .map((message: any) => {
         try {
-          const data = JSON.parse(message);
+          const data = JSON.parse(message.data.message);
           if (!data.id) data.id = ulid();
           return data;
         } catch (e) {
