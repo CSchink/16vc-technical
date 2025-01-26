@@ -1,7 +1,15 @@
 import { ulid } from "ulid";
+import { handleException } from "./handle-error";
+import { Task } from "src/api/schemas/tasks.schemas";
 
-export const messageToTableFormatter = (message: any) => {
-  return message
+/**
+ * Helper function to format Web Socket messages into 
+ * an array of Tasks
+ * @param message 
+ * @returns array of messages formatted for display
+ */
+export const messageToTableFormatter = (messages: any): Task[] => {
+  return messages
     .map((message: any) => {
       try {
         const data = JSON.parse(message.data);
@@ -12,13 +20,9 @@ export const messageToTableFormatter = (message: any) => {
           id: ulid(),
         };
       } catch (e) {
-        console.error(e);
+        handleException(e);
         return null;
       }
     })
     .filter(Boolean);
 };
-
-export const getFormObject = () => {
-    
-}

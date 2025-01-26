@@ -5,6 +5,7 @@ import ProjectDataTable from "../common/project-data-table";
 import { MutateTask } from "./mutate-tasks";
 import { Stack, Title } from "@mantine/core";
 import { messageToTableFormatter } from "../common/utils/helper";
+import { TableColumn } from "src/api/schemas/table.schemas";
 
 const TaskView = () => {
   const { messageHistory, sendMessage } = useWS();
@@ -12,11 +13,12 @@ const TaskView = () => {
     messageHistory,
   ]);
 
+  //Transform task into string for WebSocket message transfer
   const handleTaskSubmit = (task: Task): void => {
     sendMessage(JSON.stringify(task));
   };
 
-  const columns = [
+  const columns: TableColumn[] = [
     {
       accessor: "name",
     },

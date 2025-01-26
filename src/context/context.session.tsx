@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useContext } from "react";
 
+// Reducer type setup
 type Reducer<S, A> = (prevState: S, action: A) => S;
 type State = {
   user: {
@@ -12,7 +13,7 @@ const initialState = {
   user: {
     name: "Placeholder",
   },
-  dispatch: () => console.log,
+  dispatch: () => {},
 };
 
 export interface SessionContext {

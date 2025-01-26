@@ -1,6 +1,9 @@
+export type LogLevel = "debug" | "error" | "trace";
+
 class ITools {
-  private level: "debug" | "error" | "trace";
-  constructor(level: "debug" | "error" | "trace") {
+  private level: LogLevel;
+
+  constructor(level: LogLevel) {
     this.level = level;
     return this;
   }

@@ -8,13 +8,20 @@ const mockData = JSON.stringify({
   description: "yep",
 });
 
+jest.mock("../common/utils/handle-error", () => ({
+  handleException: () => {},
+}));
+
+jest.mock("../common/utils/helper", () => ({
+  messageToTableFormatter: () => [mockData],
+}));
+
 jest.mock("../../hooks/use-web-sockets", () => ({
-  // this isn't needed -  __esModule: true,
   useWS: () => ({
     message: {
       data: mockData,
     },
-    sendMessage: () => console.log("sent"),
+    sendMessage: () => {},
     messageHistory: [
       {
         data: mockData,

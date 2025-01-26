@@ -9,12 +9,11 @@ const mockData = JSON.stringify({
 });
 
 jest.mock("../../hooks/use-web-sockets", () => ({
-  // this isn't needed -  __esModule: true,
   useWS: () => ({
     message: {
       data: mockData,
     },
-    sendMessage: () => console.log("sent"),
+    sendMessage: () => {},
     messageHistory: [],
   }),
 }));
@@ -25,7 +24,6 @@ describe("It tests the form component", () => {
     waitFor(async () => {
       await expect(renderer.getAllByTestId("add-task-name")).toEqual("test");
     });
-    expect(true).toBe(true);
   });
 });
 
@@ -35,6 +33,5 @@ describe("It tests the form component", () => {
     waitFor(async () => {
       await expect(renderer.getAllByTestId("add-task-name")).toEqual("test");
     });
-    expect(true).toBe(true);
   });
 });

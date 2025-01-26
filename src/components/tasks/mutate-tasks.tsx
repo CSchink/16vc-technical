@@ -40,13 +40,13 @@ export const MutateTask = (props: { onSubmit: (value: Task) => void }) => {
           />
           <Center>
             <Button mt="sm" variant={"outline"} type="submit">
-              Add Task
+              Submit
             </Button>
           </Center>
         </form>
       </Modal>
       <Button variant="default" onClick={open}>
-        Add a
+        Add Task
       </Button>
     </>
   );
