@@ -24,7 +24,7 @@ export const useWS = () => {
   useEffect(() => {
     const getMessages = async () => {
       await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
-        console.log(msg)
+        console.log(msg);
         setMessages((prev) => [...prev, msg]);
       });
     };
@@ -48,8 +48,8 @@ export const useWS = () => {
     });
     await channel.presence.update({
       message: targetMessage,
-      messageId: targetMessage?.id
-    })
+      messageId: targetMessage?.id,
+    });
     setMessages(update);
   };
 
@@ -60,6 +60,9 @@ export const useWS = () => {
       .map((message: any) => {
         try {
           const data = JSON.parse(message.data.message);
+          if (data.status === "Deleted") {
+            return null;
+          }
           const id = ulid();
           if (!data.id) data.id = id;
           if (!message.id) message.id = id;
