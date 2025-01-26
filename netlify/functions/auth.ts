@@ -5,9 +5,10 @@ import { HandlerEvent } from "@netlify/functions";
 dotenv.config();
 
 export async function handler(event: HandlerEvent) {
-  console.log(event);
+  console.log("Project event: ", event);
   try {
     if (!process.env.ABLY_API_KEY) {
+      console.log("failed API KEY");
       return {
         statusCode: 500,
         headers: { "content-type": "application/json" },
@@ -23,14 +24,14 @@ export async function handler(event: HandlerEvent) {
     const tokenRequestData = await client.auth.createTokenRequest({
       clientId: clientId,
     });
-    console.log(tokenRequestData);
+    console.log("tokenRequestData", tokenRequestData);
     return {
       statusCode: 200,
       headers: { "content-type": "application/json" },
       body: JSON.stringify(tokenRequestData),
     };
   } catch (e) {
-    console.log(e);
+    console.log("Project error: ", e);
     return undefined;
   }
 }
