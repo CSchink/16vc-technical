@@ -47,7 +47,8 @@ const TaskView = () => {
     {
       accessor: "status",
       render: ({ status }: { status: string }) => {
-        if (status) return status.substring(0, 2) + " " + status.substring(2);
+        if (status && status !== "Completed")
+          return status.substring(0, 2) + " " + status.substring(2);
         return "";
       },
     },
