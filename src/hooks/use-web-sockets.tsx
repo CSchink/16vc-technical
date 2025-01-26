@@ -20,8 +20,7 @@ export const useWS = () => {
   useEffect(() => {
     if (outgoing.length) {
       const ably = new Ably.Realtime({
-        authUrl: `/netlify/functions
-    /index.ts`,
+        authUrl: `/netlify/functions/index`,
       });
       const channel = ably.channels.get("my-channel");
 
@@ -31,8 +30,7 @@ export const useWS = () => {
 
   useEffect(() => {
     const ably = new Ably.Realtime({
-      authUrl: `/netlify/functions
-  /index.ts`,
+      authUrl: `/netlify/functions/index`,
     });
     const channel = ably.channels.get("my-channel");
 
