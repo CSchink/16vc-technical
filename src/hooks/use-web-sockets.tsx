@@ -12,12 +12,13 @@ export const useWS = () => {
     Ably.ConnectionStateChange | undefined
   >(undefined);
   const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
+    console.log(message);
     setMessages((prev) => [...prev, message]);
   });
 
   useConnectionStateListener((stateChange) => {
     console.log(readyState);
-    console.log(channel)
+    console.log(channel);
     setReadyState(stateChange);
   });
 
