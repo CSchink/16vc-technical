@@ -36,7 +36,7 @@ export const useWS = () => {
 
   useEffect(() => {
     (async () => {
-      const ably = new Ably.Realtime({
+      const ably = await new Ably.Realtime({
         authUrl,
       });
       const channel = ably.channels.get(CHANNELS.tasks);
