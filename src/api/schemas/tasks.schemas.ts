@@ -1,6 +1,6 @@
 //Task Definitions
 
-export type TaskStatus = "ToDo" | "Completed" | "Deleted";
+export type TaskStatus = "ToDo" | "Completed" | "InProgress" | "Deleted";
 
 export interface Task {
   id: any;
