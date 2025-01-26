@@ -1,2 +1,4 @@
 [dev]
 targetPort= 8080
+[functions]
+directory = ".netlify/functions/"
