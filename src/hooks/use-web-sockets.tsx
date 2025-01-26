@@ -4,8 +4,6 @@ import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 
-const clientId = "optional";
-
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
   const [outgoing, setOutgoing] = useState<any>([]);
