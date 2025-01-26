@@ -1,5 +1,5 @@
 {
-  "name": "ably-token-request",
+  "name": "auth",
   "version": "1.0.0",
   "description": "ably token request",
   "main": "index.ts",
