@@ -49,9 +49,8 @@ export const useWS = () => {
     messageHistory: messages,
     data: messages
       .map((message: any) => {
-        console.log(message);
         try {
-          const data = JSON.parse(message.data);
+          const data = JSON.parse(message.data.message);
           if (!data.id) data.id = ulid();
           return data;
         } catch (e) {
