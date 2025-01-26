@@ -4,6 +4,7 @@ import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 
+const authUrl = `/netlify/functions/auth`
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.InboundMessage[]>([]);
   const [outgoing, setOutgoing] = useState<any>([]);
@@ -20,7 +21,7 @@ export const useWS = () => {
   useEffect(() => {
     if (outgoing.length) {
       const ably = new Ably.Realtime({
-        authUrl: `/netlify/functions/index`,
+        authUrl,
       });
       const channel = ably.channels.get("my-channel");
 
@@ -30,7 +31,7 @@ export const useWS = () => {
 
   useEffect(() => {
     const ably = new Ably.Realtime({
-      authUrl: `/netlify/functions/index`,
+      authUrl,
     });
     const channel = ably.channels.get("my-channel");
 

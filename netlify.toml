@@ -1,0 +1,4 @@
+[dev]
+targetPort=8000
+[functions]
+directory="/netlify/functions/"
