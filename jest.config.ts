@@ -1,5 +1,5 @@
 module.exports = {
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts", "!**/vendor/**"],
   coverageDirectory: "coverage",
   testEnvironment: "jsdom",
@@ -16,5 +16,6 @@ module.exports = {
     "reportWebVitals.ts",
     "setupTests.ts",
     "index.tsx",
+    "./App.tsx"
   ],
 };

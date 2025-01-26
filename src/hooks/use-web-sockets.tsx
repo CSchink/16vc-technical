@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
+import { ulid } from "ulid";
 
 export const useWS = () => {
   const socketUrl = "wss://echo.websocket.org";
@@ -26,6 +27,10 @@ export const useWS = () => {
   return {
     connectionStatus,
     sendMessage,
-    messageHistory,
+    messageHistory: messageHistory.map((message: any) => {
+      if (!message.id) message.id = ulid();
+      return message;
+    }),
+    setMessageHistory,
   };
 };

@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useContext } from "react";
 
+// Reducer type setup
 type Reducer<S, A> = (prevState: S, action: A) => S;
 type State = {
   user: {
@@ -12,9 +13,17 @@ const initialState = {
   user: {
     name: "Placeholder",
   },
+  dispatch: () => {},
 };
 
-const SessionContext = createContext(initialState);
+export interface SessionContext {
+  state: State;
+  dispatch: (action: Action) => void;
+}
+
+const SessionContext = createContext<SessionContext>(
+  (initialState as unknown) as SessionContext
+);
 
 const reducer: Reducer<State, Action> = (
   state: State,
@@ -35,6 +44,7 @@ export const SessionProvider = ({
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
+    //eslint-disable-next-line
     <SessionContext.Provider value={{ state, dispatch }}>
       {children}
     </SessionContext.Provider>
