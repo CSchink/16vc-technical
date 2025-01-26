@@ -22,7 +22,7 @@ export const useWS = () => {
   useEffect(() => {
     if (outgoing.length) {
       const ably = new Ably.Realtime({
-        authUrl: `/.netlify/functions
+        authUrl: `/netlify/functions
     //ably-token-request?clientId=${clientId}`,
       });
       const channel = ably.channels.get("my-channel");
@@ -33,7 +33,7 @@ export const useWS = () => {
 
   useEffect(() => {
     const ably = new Ably.Realtime({
-      authUrl: `/.netlify/functions
+      authUrl: `/netlify/functions
   //ably-token-request?clientId=${clientId}`,
     });
     const channel = ably.channels.get("my-channel");
