@@ -36,7 +36,10 @@ export const useWS = () => {
   };
 
   const editMessage = (message: any) => {
-    const update = messages.filter((msg) => !isEqual(msg, message));
+    const update = messages.filter((msg) => {
+      console.log(msg.data, message);
+      return !isEqual(msg.id, message.id);
+    });
     setMessages(update);
   };
 
@@ -47,7 +50,9 @@ export const useWS = () => {
       .map((message: any) => {
         try {
           const data = JSON.parse(message.data.message);
-          if (!data.id) data.id = ulid();
+          const id = ulid();
+          if (!data.id) data.id = id;
+          if (!message.id) message.id = id;
           return data;
         } catch (e) {
           if (e) {
