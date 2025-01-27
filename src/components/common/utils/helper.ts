@@ -58,6 +58,6 @@ export const getMessage = (message: Message) => {
     return JSON.parse(message.data.message);
   } catch (e) {
     handleException(e);
-    return null;
+    return message;
   }
 };
