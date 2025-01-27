@@ -60,6 +60,7 @@ export const useWS = () => {
       .map((message: any) => {
         try {
           const data = JSON.parse(message.data.message);
+          console.log(data)
           if (data.status === "Deleted") {
             return null;
           }
