@@ -11,6 +11,7 @@ import {
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
+  const [loading, setLoading] = useState(false);
   const [readyState, setReadyState] = useState<
     Ably.ConnectionStateChange | undefined
   >(undefined);
@@ -33,10 +34,14 @@ export const useWS = () => {
           const update = messages.filter((msg) => {
             return msg.id !== data.edit.id;
           });
+          setLoading(true)
           setMessages(formatMessages([msg, ...update]));
+          setLoading(false)
           return;
         }
+        setLoading(true)
         setMessages((prev) => formatMessages([...prev, msg]));
+        setLoading(false)
       });
     };
     getMessages();
@@ -63,7 +68,8 @@ export const useWS = () => {
   return {
     sendMessage,
     messageHistory: messages,
-    data: formatMessagesForUI(messages),
+    data: loading ? [] : formatMessagesForUI(messages),
     editMessage,
+    loading
   };
 };
