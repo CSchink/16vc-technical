@@ -19,7 +19,7 @@ export const useWS = () => {
   });
 
   useConnectionStateListener((stateChange) => {
-    if (readyState) {
+    if (stateChange) {
       setReadyState(stateChange);
     }
   });
