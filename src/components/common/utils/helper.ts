@@ -11,7 +11,6 @@ export const formatMessages = (messages: Message[]): Message[] => {
   return messages
     .map((message: any) => {
       try {
-        console.log(message)
         const data = getMessage(message);
         if (data.status === "Deleted") {
           return null;
@@ -19,6 +18,27 @@ export const formatMessages = (messages: Message[]): Message[] => {
         const id = message.id;
         if (!data.id) data.id = id;
         if (!message.id) message.id = id;
+        return message;
+      } catch (e) {
+        if (e) {
+          return null;
+        }
+      }
+    })
+    .filter(Boolean);
+};
+
+/**
+ * Helper function to format Web Socket messages into
+ * an array of Tasks
+ * @param message
+ * @returns array of messages formatted for display
+ */
+export const formatMessagesForUI = (messages: Message[]): Message[] => {
+  return messages
+    .map((message: any) => {
+      try {
+        const data = getMessage(message);
         return data;
       } catch (e) {
         if (e) {
