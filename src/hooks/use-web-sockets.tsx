@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import * as Ably from "ably";
-import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
 import { useChannel, useConnectionStateListener } from "ably/react";
