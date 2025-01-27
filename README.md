@@ -9,8 +9,11 @@ Hosted on [Netlify](https://16vc-technical.netlify.app/)
 - Open up the Netlify link in two tabs simultaneously (app does not currently register WebSocket history)
 - Add task
 - Confirm task appears in both tabs
-- Mutate task
-- Confirm mutation happens simultaneously in both tabs
+- Confirm progress bar changes
+- Delete task
+- Confirm task is deleted simultaneously in both tabs
+- Change task status
+- Confirm changes appear in both tabs
 - *Currently facing issues with duplicate messages / state when changing a task's status*
   
 ### Task View:
