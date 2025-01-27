@@ -37,9 +37,13 @@ export const useWS = () => {
   };
 
   const editMessage = async (message: any) => {
-    sendMessage(JSON.stringify(message));
     const update = messages.filter((msg) => {
       const objectFormat = getMessage(msg);
+      console.log(
+        isEqual(objectFormat.id, message.id),
+        objectFormat.id,
+        message.id
+      );
       return !isEqual(objectFormat.id, message.id);
     });
 

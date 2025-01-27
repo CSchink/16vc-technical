@@ -16,7 +16,6 @@ const TaskView = () => {
   const handleTaskSubmit = (task: Task, isEditing: boolean): void => {
     if (isEditing) {
       editMessage(task);
-      console.log(task.id)
       setTask(undefined);
     }
     sendMessage(JSON.stringify(task));
