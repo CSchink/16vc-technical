@@ -49,11 +49,11 @@ export const useWS = () => {
       message: targetMessage,
       messageId: targetMessage?.id,
     });
-    const update = messages.filter((msg) => {
-      const objectFormat = getMessage(msg);
-      return !isEqual(objectFormat.id, message.id);
-    });
-    setMessages(formatMessages(update));
+    // const update = messages.filter((msg) => {
+    //   const objectFormat = getMessage(msg);
+    //   return !isEqual(objectFormat.id, message.id);
+    // });
+    // setMessages(formatMessages(update));
   };
 
   return {
