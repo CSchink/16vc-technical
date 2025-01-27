@@ -15,8 +15,21 @@ export const useWS = () => {
   const [readyState, setReadyState] = useState<
     Ably.ConnectionStateChange | undefined
   >(undefined);
-  const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
-    iTools.log(JSON.stringify(message));
+  const { publish, channel } = useChannel(CHANNELS.tasks, (msg) => {
+    iTools.log(`Receiving message: ${msg}`);
+    const data = getMessage(msg);
+    if (data.edit) {
+      const update = messages.filter((msg) => {
+        return msg.id !== data.edit.id;
+      });
+      setLoading(true);
+      setMessages(formatMessages([msg, ...update]));
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    setMessages((prev) => formatMessages([...prev, msg]));
+    setLoading(false);
   });
 
   useConnectionStateListener((stateChange) => {
@@ -34,14 +47,14 @@ export const useWS = () => {
           const update = messages.filter((msg) => {
             return msg.id !== data.edit.id;
           });
-          setLoading(true)
+          setLoading(true);
           setMessages(formatMessages([msg, ...update]));
-          setLoading(false)
+          setLoading(false);
           return;
         }
-        setLoading(true)
+        setLoading(true);
         setMessages((prev) => formatMessages([...prev, msg]));
-        setLoading(false)
+        setLoading(false);
       });
     };
     getMessages();
@@ -70,6 +83,6 @@ export const useWS = () => {
     messageHistory: messages,
     data: loading ? [] : formatMessagesForUI(messages),
     editMessage,
-    loading
+    loading,
   };
 };
