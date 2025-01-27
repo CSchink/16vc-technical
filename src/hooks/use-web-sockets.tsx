@@ -7,6 +7,7 @@ import {
   formatMessages,
   formatMessagesForUI,
   getMessage,
+  uniqueValues,
 } from "../components/common/utils/helper";
 
 export const useWS = () => {
@@ -17,6 +18,12 @@ export const useWS = () => {
   const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
     iTools.log(JSON.stringify(message));
   });
+
+  useEffect(() => {
+    if (messages.length) {
+      setMessages(uniqueValues(messages, "id"));
+    }
+  }, [messages]);
 
   useConnectionStateListener((stateChange) => {
     if (readyState) {
@@ -31,7 +38,7 @@ export const useWS = () => {
         const data = getMessage(msg);
         if (data.edit) {
           const update = messages.filter((msg) => {
-            console.log(msg.id !== data.edit.id)
+            console.log(msg.id !== data.edit.id);
             return msg.id !== data.edit.id;
           });
           setMessages(formatMessages([msg, ...update]));
@@ -51,8 +58,8 @@ export const useWS = () => {
   const editMessage = async (message: any) => {
     const targetMessage = messages.find((msg) => {
       const objectFormat = getMessage(msg);
-      console.log(objectFormat)
-      return objectFormat.id === message.id
+      console.log(objectFormat);
+      return objectFormat.id === message.id;
     });
     message.edit = {
       id: targetMessage?.id,
