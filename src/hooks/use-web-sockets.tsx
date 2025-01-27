@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as Ably from "ably";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
@@ -8,7 +8,6 @@ import {
   formatMessagesForUI,
   getMessage,
 } from "../components/common/utils/helper";
-
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
@@ -24,31 +23,31 @@ export const useWS = () => {
     }
   });
 
-  useEffect(() => {
-    const getMessages = async () => {
-      await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
-        iTools.log(`Receiving message: ${msg}`);
-        const data = getMessage(msg);
-        if (data.edit) {
-          const update = messages.filter((msg) => {
-            return msg.id !== data.edit.id;
-          });
-          setLoading(true);
-          setMessages(formatMessages([msg, ...update]));
-          setLoading(false);
-          return;
-        }
+  const getMessages = useCallback(async () => {
+    await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
+      iTools.log(`Receiving message: ${msg}`);
+      const data = getMessage(msg);
+      if (data.edit) {
+        const update = messages.filter((msg) => {
+          return msg.id !== data.edit.id;
+        });
         setLoading(true);
-        setMessages((prev) => formatMessages([...prev, msg]));
+        setMessages(formatMessages([msg, ...update]));
         setLoading(false);
-      });
-    };
-    getMessages();
+        return;
+      }
+      setLoading(true);
+      setMessages((prev) => formatMessages([...prev, msg]));
+      setLoading(false);
+    });
+  }, [channel, messages]);
 
+  useEffect(() => {
+    getMessages();
     return () => {
       channel.unsubscribe();
     };
-  }, [readyState, channel, messages]);
+  }, [readyState, channel, messages, getMessages]);
 
   const sendMessage = (messageText: any) => {
     iTools.log(`Sending message: ${messageText}`);
