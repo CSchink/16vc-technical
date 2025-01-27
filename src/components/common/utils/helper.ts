@@ -40,6 +40,11 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
     .map((message: any) => {
       try {
         const data = getMessage(message);
+        if (data.status === "Deleted") {
+          return null;
+        }
+        const id = message.id;
+        if (!data.id) data.id = id;
         return data;
       } catch (e) {
         if (e) {
