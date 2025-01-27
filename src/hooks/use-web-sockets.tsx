@@ -29,11 +29,16 @@ export const useWS = () => {
     const getMessages = async () => {
       await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
         iTools.log(`Receiving message: ${msg}`);
+        const data = getMessage(msg);
+        if (data.edit) {
+          const update = messages.filter((msg) => msg.id !== data.edit.id);
+          setMessages(formatMessages([msg, ...update]));
+        }
         setMessages((prev) => formatMessages([...prev, msg]));
       });
     };
     getMessages();
-  }, [readyState, channel]);
+  }, [readyState, channel, messages]);
 
   const sendMessage = (messageText: any) => {
     iTools.log(`Sending message: ${messageText}`);
@@ -45,15 +50,11 @@ export const useWS = () => {
       const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
     });
-    await channel.presence.update({
-      message: targetMessage,
-      messageId: targetMessage?.id,
-    });
-    // const update = messages.filter((msg) => {
-    //   const objectFormat = getMessage(msg);
-    //   return !isEqual(objectFormat.id, message.id);
-    // });
-    // setMessages(formatMessages(update));
+    message.edit = {
+      id: targetMessage?.id,
+      action: message.status === "Deleted" ? "DELETE" : "EDIT",
+    };
+    publish(CHANNELS.tasks, { message: JSON.stringify(message) });
   };
 
   return {
