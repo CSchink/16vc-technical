@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Ably from "ably";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
@@ -16,28 +16,35 @@ export const useWS = () => {
   const [readyState, setReadyState] = useState<
     Ably.ConnectionStateChange | undefined
   >(undefined);
-  const { publish } = useChannel(CHANNELS.tasks, (msg) => {
-    iTools.log(`Receiving message: ${readyState}`);
-    const data = getMessage(msg);
-    if (data.edit) {
-      const update = messages.filter((msg) => {
-        return msg.id !== data.edit.id;
-      });
-      setLoading(true);
-      setMessages(formatMessages([msg, ...update]));
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    setMessages((prev) => formatMessages([...prev, msg]));
-    setLoading(false);
-  });
+  const { publish, channel } = useChannel(CHANNELS.tasks);
 
   useConnectionStateListener((stateChange) => {
     if (stateChange) {
       setReadyState(stateChange);
     }
   });
+
+  useEffect(() => {
+    const getMessages = async () => {
+      await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
+        iTools.log(`Receiving message: ${msg}`);
+        const data = getMessage(msg);
+        if (data.edit) {
+          const update = messages.filter((msg) => {
+            return msg.id !== data.edit.id;
+          });
+          setLoading(true);
+          setMessages(formatMessages([msg, ...update]));
+          setLoading(false);
+          return;
+        }
+        setLoading(true);
+        setMessages((prev) => formatMessages([...prev, msg]));
+        setLoading(false);
+      });
+    };
+    getMessages();
+  }, [readyState, channel, messages]);
 
   const sendMessage = (messageText: any) => {
     iTools.log(`Sending message: ${messageText}`);
