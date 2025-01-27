@@ -17,7 +17,7 @@ export const formatMessages = (messages: Message[]): Message[] => {
           return null;
         }
         const id = message.id;
-        if (!data.id) data.id = id;
+        data.id = id;
         if (!message.id) message.id = id;
         return message;
       } catch (e) {
@@ -43,8 +43,21 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
         if (data.status === "Deleted") {
           return null;
         }
+
+        if (data.edit) {
+          if (data.edit.added) {
+            return null;
+          }
+          const target = messages.find((item: any) => item.id === data.edit.id);
+          if (target) {
+            const alreadyAdded = getMessage(target);
+            alreadyAdded.added = true;
+            target.data.message = alreadyAdded;
+            data.edit.added = true;
+          }
+        }
         const id = message.id;
-        if (!data.id) data.id = id;
+        data.id = id;
         return data;
       } catch (e) {
         if (e) {

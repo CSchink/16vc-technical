@@ -3,15 +3,15 @@ import { useState } from "react";
 import { Task } from "../../api/schemas/tasks.schemas";
 import ProjectDataTable from "../common/table/project-data-table";
 import { MutateTask } from "./mutate-tasks";
-import { Stack } from "@mantine/core";
+import { Loader, Stack } from "@mantine/core";
 import { TableColumn } from "src/api/schemas/table.schemas";
 import { TableActions } from "../common/table/project-table-actions";
 import PageTitle from "../common/title";
+import ProgressCounter from "../common/progress";
 
 const TaskView = () => {
-  const { sendMessage, editMessage, data } = useWS();
+  const { sendMessage, editMessage, messages, loading } = useWS();
   const [task, setTask] = useState<Task | undefined>(undefined);
-
   //Transform task for WebSocket transfer
   const handleTaskSubmit = (task: Task, isEditing: boolean): void => {
     if (isEditing) {
@@ -22,6 +22,7 @@ const TaskView = () => {
   };
 
   const handleEdit = (task: Task) => {
+    console.log(task);
     setTask(task);
   };
 
@@ -50,12 +51,8 @@ const TaskView = () => {
       },
     },
     {
-      accessor: "id",
-      width: 50
-    },
-    {
       accessor: "actions",
-      width: 50,
+      width: 100,
       render: (task: Task) => {
         const actions = ["edit"];
         return (
@@ -65,7 +62,9 @@ const TaskView = () => {
     },
   ];
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <Stack>
       <PageTitle title="Task Management" />
       <Stack
@@ -74,8 +73,9 @@ const TaskView = () => {
         justify="center"
         style={{ minHeight: "500px" }}
       >
+        <ProgressCounter />
         <MutateTask onSubmit={handleTaskSubmit} task={task} />
-        <ProjectDataTable data={data ?? []} columns={columns ?? []} />
+        <ProjectDataTable data={messages ?? []} columns={columns ?? []} />
       </Stack>
     </Stack>
   );
