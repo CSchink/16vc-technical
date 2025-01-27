@@ -1,24 +1,23 @@
 import { Paper } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
-import { useWS } from "../../../hooks/use-web-sockets";
 import { formatMessagesForUI } from "../utils/helper";
 import { useEffect, useState } from "react";
+import { Message } from "ably";
 
 type ProjectDataTableProps<T> = {
-  data: T[];
+  data: Message[];
   columns: any[];
   selectedRecords?: T[];
   handleSelectedRecords?: () => void;
 };
 
 export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
-  const { columns, handleSelectedRecords } = props;
+  const { columns, handleSelectedRecords, data } = props;
   const [tableData, setTableData] = useState<any>([])
-  const { messages } = useWS();
 
   useEffect(() => {
-    setTableData(formatMessagesForUI(messages))
-  }, [messages])
+    setTableData(formatMessagesForUI(data))
+  }, [data])
 
 
   return (

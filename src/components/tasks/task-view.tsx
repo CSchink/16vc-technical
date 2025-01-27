@@ -1,5 +1,5 @@
 import { useWS } from "../../hooks/use-web-sockets";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Task } from "../../api/schemas/tasks.schemas";
 import ProjectDataTable from "../common/table/project-data-table";
 import { MutateTask } from "./mutate-tasks";
@@ -8,13 +8,10 @@ import { TableColumn } from "src/api/schemas/table.schemas";
 import { TableActions } from "../common/table/project-table-actions";
 import PageTitle from "../common/title";
 import ProgressCounter from "../common/progress";
-import { uniqueValues } from "../common/utils/helper";
 
 const TaskView = () => {
-  const { sendMessage, editMessage, data, loading } = useWS();
+  const { sendMessage, editMessage, messages, loading } = useWS();
   const [task, setTask] = useState<Task | undefined>(undefined);
-  const tableData = useMemo(() => uniqueValues(data, "id"), [data]);
-  
   //Transform task for WebSocket transfer
   const handleTaskSubmit = (task: Task, isEditing: boolean): void => {
     if (isEditing) {
@@ -78,7 +75,7 @@ const TaskView = () => {
       >
         <ProgressCounter />
         <MutateTask onSubmit={handleTaskSubmit} task={task} />
-        <ProjectDataTable data={tableData ?? []} columns={columns ?? []} />
+        <ProjectDataTable data={messages ?? []} columns={columns ?? []} />
       </Stack>
     </Stack>
   );
