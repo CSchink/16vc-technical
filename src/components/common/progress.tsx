@@ -12,33 +12,37 @@ type ProgresCounterType = {
 };
 
 export default function ProgressCounter() {
-    const { data } = useWS();
-    const [totals, setTotals] = useState<ProgresCounterType[]>([]);
+  const { data } = useWS();
+  const [totals, setTotals] = useState<ProgresCounterType[]>([]);
 
-    useEffect(() => {
-      if (data.length) {
-     
-        const statuses: ProgresCounterType[] = [
-          { status: "ToDo", color: "red", tooltip: "ToDo", value: 0 },
-          {
-            status: "InProgress",
-            color: "yellow",
-            tooltip: "InProgress",
-            value: 0,
-          },
-          { status: "Completed", color: "green", tooltip: "Completed", value: 0 },
-        ];
-        const counts = statuses.map((item: ProgresCounterType) => {
-          const total = data.reduce(
-            (acc, cur) => (cur.status === item.status ? ++acc : acc),
-            0
-          );
-          item.value = total * 20;
-          return item;
-        });
-        setTotals(counts);
-      }
-    }, [data, totals, totals.length]);
+  useEffect(() => {
+    if (data.length) {
+      const statuses: ProgresCounterType[] = [
+        { status: "ToDo", color: "red", tooltip: "ToDo", value: 0 },
+        {
+          status: "InProgress",
+          color: "yellow",
+          tooltip: "InProgress",
+          value: 0,
+        },
+        { status: "Completed", color: "green", tooltip: "Completed", value: 0 },
+      ];
+
+      const counts = statuses.map((item: ProgresCounterType) => {
+        const totalAmount = data.reduce(
+          (acc, cur) => (cur.status === item.status ? ++acc : acc),
+          0
+        );
+        const current = data.reduce(
+          (acc, cur) => (cur.status === item.status ? ++acc : acc),
+          0
+        );
+        item.value = (current / totalAmount) * 100;
+        return item;
+      });
+      setTotals(counts);
+    }
+  }, [data, totals, totals.length]);
 
   return <RingProgress size={120} thickness={12} roundCaps sections={totals} />;
 }
