@@ -4,7 +4,7 @@ import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
 import { useChannel, useConnectionStateListener } from "ably/react";
-import { getMessage, uniqueValues } from "../components/common/utils/helper";
+import { formatMessages, getMessage } from "../components/common/utils/helper";
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
@@ -25,7 +25,7 @@ export const useWS = () => {
     const getMessages = async () => {
       await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
         iTools.log(`Receiving message: ${msg}`);
-        setMessages((prev) => uniqueValues([...prev, msg], "id"));
+        setMessages((prev) => formatMessages([...prev, msg]));
       });
     };
     getMessages();
@@ -46,7 +46,7 @@ export const useWS = () => {
       );
       return !isEqual(objectFormat.id, message.id);
     });
-    setMessages(update);
+    setMessages(formatMessages(update));
     const targetMessage = messages.find((msg) => {
       const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
