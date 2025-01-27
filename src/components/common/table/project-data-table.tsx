@@ -2,6 +2,7 @@
 import { Paper } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
 import { useWS } from "../../../hooks/use-web-sockets";
+import { formatMessagesForUI } from "../utils/helper";
 
 type ProjectDataTableProps<T> = {
   data: T[];
@@ -12,7 +13,7 @@ type ProjectDataTableProps<T> = {
 
 export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
   const { columns, handleSelectedRecords } = props;
-  const { data } = useWS();
+  const { messages } = useWS();
 
   return (
     <Paper shadow="md" withBorder p="md">
@@ -25,7 +26,7 @@ export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
         noRecordsText={"Please add a task to begin"}
         highlightOnHover
         onSelectedRecordsChange={handleSelectedRecords ?? undefined}
-        records={data}
+        records={formatMessagesForUI(messages)}
         columns={columns}
       />
     </Paper>

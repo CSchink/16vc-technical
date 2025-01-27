@@ -73,5 +73,6 @@ export const useWS = () => {
     data: loading ? [] : formatMessagesForUI(messages),
     editMessage,
     loading,
+    messages
   };
 };
