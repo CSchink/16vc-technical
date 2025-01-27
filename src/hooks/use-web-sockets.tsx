@@ -36,9 +36,7 @@ export const useWS = () => {
         return;
       }
       setLoading(true);
-      setMessages((prev) =>
-        [...prev, msg]
-      );
+      setMessages((prev) => [...prev, msg]);
       setLoading(false);
     });
   }, [channel, messages]);
@@ -60,15 +58,10 @@ export const useWS = () => {
       id: message.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
-    const update = messages.filter((msg) => {
-      return msg.id !== message.edit.id;
-    });
-    setLoading(true);
-    setMessages(update);
     channel.presence.update({
       messageId: message.id,
-      message
-    })
+      message,
+    });
     sendMessage(JSON.stringify(message));
   };
 
