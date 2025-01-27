@@ -43,8 +43,7 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
         if (data.status === "Deleted") {
           return null;
         }
-        const id = message.id;
-        if (!data.id) data.id = id;
+        if (!data.id) return null;
         return data;
       } catch (e) {
         if (e) {
