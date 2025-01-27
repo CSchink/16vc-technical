@@ -59,10 +59,6 @@ export const useWS = () => {
       id: targetMessage?.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
-    const update = messages.filter((msg) => {
-      return msg.id !== message.edit.id;
-    });
-    setMessages(formatMessages([message, ...update]));
     sendMessage(JSON.stringify(message));
   };
 
