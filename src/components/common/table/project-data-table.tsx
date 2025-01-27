@@ -16,7 +16,7 @@ export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
 
   useEffect(() => {
     if (data.length) {
-      setTableData(data);
+      setTableData(data.filter((item: any) => item && item.id));
     }
   }, [data]);
   return (
