@@ -4,18 +4,6 @@ Hosted on [Netlify](https://16vc-technical.netlify.app/)
 
 ## Basic use cases implemented:
 
-### Collaboration & Web Socket Integration
-
-- Open up the Netlify link in two tabs simultaneously (app does not currently register WebSocket history)
-- Add task
-- Confirm task appears in both tabs
-- Confirm progress bar changes
-- Delete task
-- Confirm task is deleted simultaneously in both tabs
-- Change task status
-- Confirm changes appear in both tabs
-- *Currently facing issues with duplicate messages / state when changing a task's status*
-  
 ### Task View:
 
 - List of tasks in a table format with table actions for marking a task as deleted or completed.
@@ -27,6 +15,23 @@ Hosted on [Netlify](https://16vc-technical.netlify.app/)
 - Click on adding task icon, view a modal with custom input form field for submission.
 - Able to assign name, description, category, and status.  Name and category required.
 - Basic form validation for required fields.
+
+### Mutating a task:
+
+- Click the edit action on table row
+- Able to edit task fields and delete the task
+
+### Collaboration & Web Socket Integration
+
+- Open up the Netlify link in two tabs simultaneously (app does not currently register WebSocket history)
+- Add task
+- Confirm task appears in both tabs
+- Confirm progress bar changes
+- Delete task
+- Confirm task is deleted simultaneously in both tabs
+- Change task status
+- Confirm changes appear in both tabs
+- *Currently facing issues with duplicate messages / state when changing a task's status*
 
 ## Technical implementation
 
