@@ -56,6 +56,11 @@ to abstract away any sort of input into a dedicated abstraction layer.
 **Code Splitting**.  Implemented code splitting of components through the Loadable framework and React Router. 
 
 **Project MGMT and Design**  Before a single piece of code was written I reviewed all requirements and designed the MVP with usability in mind.  Issues were
-then created in order to methodically track the status of the project. From there I set out to complete the MVP and, once finished, tagged it as a [v0.1](https://github.com/CSchink/16vc-technical/releases) release.  
-Knowing the limitations with that implementation I then set out on a more interactive version with realtime WebSocket updates. I replaced the Web Socket integration with a more robust version, 
+then created in order to methodically track the status of the project. From there I set out to complete the MVP and, once finished, tagged it as a [v0.1](https://github.com/CSchink/16vc-technical/releases) release.  Knowing the limitations with that implementation I then set out on a more interactive version with realtime WebSocket updates. I replaced the Web Socket integration with a more robust version, 
 needing only to change some dependencies and update the React hook previously implemented. 
+
+**Signing Off**
+
+The build is not 100% complete and there is more testing and fine-tuning of the WebSocket integration to complete.  However, the project is designed in such 
+a way that adding new features and enhancing existing ones is made much easier through its solid foundation.  It has been a pleasure working on this project and I thank you
+for your consideration.
