@@ -27,12 +27,8 @@ export default function ProgressCounter() {
         },
         { status: "Completed", color: "green", tooltip: "Completed", value: 0 },
       ];
-
+      const totalAmount = data.reduce((acc) => ++acc, 0);
       const counts = statuses.map((item: ProgresCounterType) => {
-        const totalAmount = data.reduce(
-          (acc, cur) => (cur.status === item.status ? ++acc : acc),
-          0
-        );
         const current = data.reduce(
           (acc, cur) => (cur.status === item.status ? ++acc : acc),
           0
