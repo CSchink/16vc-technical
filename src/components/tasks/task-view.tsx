@@ -11,7 +11,7 @@ import PageTitle from "../common/title";
 const TaskView = () => {
   const { sendMessage, editMessage, data, loading } = useWS();
   const [task, setTask] = useState<Task | undefined>(undefined);
-  const tableData = useMemo(() => data, [data])
+  const tableData = useMemo(() => data, [data]);
   //Transform task for WebSocket transfer
   const handleTaskSubmit = (task: Task, isEditing: boolean): void => {
     if (isEditing) {
@@ -22,7 +22,7 @@ const TaskView = () => {
   };
 
   const handleEdit = (task: Task) => {
-    console.log(task)
+    console.log(task);
     setTask(task);
   };
 
