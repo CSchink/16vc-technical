@@ -34,7 +34,6 @@ export default function ProgressCounter() {
           0
         );
         item.value = parseInt(((current / totalAmount) * 100).toFixed(0));
-        console.log(item.value);
         return item;
       });
       setTotals(counts);
