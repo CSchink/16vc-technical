@@ -55,13 +55,8 @@ export const useWS = () => {
   };
 
   const editMessage = async (message: any) => {
-    const targetMessage = messages.find((msg) => {
-      const objectFormat = getMessage(msg);
-      console.log(objectFormat)
-      return objectFormat.id === message.id;
-    });
     message.edit = {
-      id: targetMessage?.id,
+      id: message.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
     sendMessage(JSON.stringify(message));
