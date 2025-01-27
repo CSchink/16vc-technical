@@ -4,7 +4,7 @@ import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
 import { useChannel, useConnectionStateListener } from "ably/react";
-import { uniqueValues } from "../components/common/utils/helper";
+import { getMessage, uniqueValues } from "../components/common/utils/helper";
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
@@ -38,9 +38,8 @@ export const useWS = () => {
 
   const editMessage = async (message: any) => {
     const update = messages.filter((msg) => {
-      console.log(msg, message);
-      const objectFormat = JSON.stringify(msg.data);
-      return !isEqual(JSON.parse(objectFormat).id, message.id);
+      const objectFormat = getMessage(msg);
+      return !isEqual(objectFormat.id, message.id);
     });
     const targetMessage = messages.find((msg) => {
       const objectFormat = JSON.parse(msg.data);
@@ -60,7 +59,7 @@ export const useWS = () => {
       .map((message: any) => {
         try {
           const data = JSON.parse(message.data.message);
-          console.log(data)
+          console.log(data);
           if (data.status === "Deleted") {
             return null;
           }
