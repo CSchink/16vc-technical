@@ -31,8 +31,6 @@ export const useWS = () => {
           return message.id !== data.edit.id;
         });
         setLoading(true);
-        delete data.edit;
-        msg.data.message = JSON.stringify(data);
         setMessages([msg, ...update]);
         setLoading(false);
         return;
