@@ -65,7 +65,7 @@ export const useWS = () => {
   return {
     sendMessage,
     messageHistory: messages,
-    data: uniqueValues(formatMessagesForUI(messages), "id"),
+    data: formatMessagesForUI(messages),
     editMessage,
   };
 };
