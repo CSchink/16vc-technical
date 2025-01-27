@@ -7,6 +7,7 @@ import {
   formatMessages,
   formatMessagesForUI,
   getMessage,
+  uniqueValues,
 } from "../components/common/utils/helper";
 
 export const useWS = () => {
@@ -68,7 +69,7 @@ export const useWS = () => {
   return {
     sendMessage,
     messageHistory: messages,
-    data: formatMessagesForUI(messages),
+    data: uniqueValues(formatMessagesForUI(messages), "id"),
     editMessage,
   };
 };

@@ -1,5 +1,6 @@
 import { Message } from "ably";
 import { handleException } from "./handle-error";
+import { Task } from "../../../api/schemas/tasks.schemas";
 
 /**
  * Helper function to format Web Socket messages into
@@ -34,7 +35,7 @@ export const formatMessages = (messages: Message[]): Message[] => {
  * @param message
  * @returns array of messages formatted for display
  */
-export const formatMessagesForUI = (messages: Message[]): Message[] => {
+export const formatMessagesForUI = (messages: Message[]): Task[] => {
   return messages
     .map((message: any) => {
       try {
