@@ -50,18 +50,9 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
           }
           const target = messages.find((item: any) => item.id === data.edit.id);
           if (target) {
-            const latest = messages.find(
-              (item: any) =>
-                item.createdAt ===
-                Math.max(target.createdAt ?? 0, messages[index].createdAt ?? 0)
-            );
-            if (latest) {
-              const newData = getMessage(latest);
-              const id = message.id;
-              newData.id = id;
-              newData.edit.added = true;
-              return newData;
-            }
+            const alreadyAdded = getMessage(target);
+            alreadyAdded.added = true;
+            target.data.message = alreadyAdded;
           }
         }
         const id = message.id;
