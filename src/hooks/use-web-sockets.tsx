@@ -12,7 +12,7 @@ export const useWS = () => {
     Ably.ConnectionStateChange | undefined
   >(undefined);
   const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
-    setMessages((prev) => uniqueValues([...prev, message], "id"));
+    iTools.log(JSON.stringify(message));
   });
 
   useConnectionStateListener((stateChange) => {
