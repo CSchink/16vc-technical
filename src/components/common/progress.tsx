@@ -29,10 +29,9 @@ export default function ProgressCounter() {
       ];
       const totalAmount = data.length ?? 1;
       const counts = statuses.map((item: ProgresCounterType) => {
-        const current = data.reduce(
-          (acc, cur) => (cur.status === item.status ? ++acc : acc),
-          0
-        );
+        const current = data
+          .filter((item: any) => item && item.id && !item.edit)
+          .reduce((acc, cur) => (cur.status === item.status ? ++acc : acc), 0);
         item.value = parseInt(((current / totalAmount) * 100).toFixed(0));
         return item;
       });
