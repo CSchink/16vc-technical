@@ -60,6 +60,11 @@ export const useWS = () => {
       id: message.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
+    const targetMessage = messages.find((msg) => (msg.id = message.id));
+    channel.presence.update({
+      messageId: message.id,
+      message: targetMessage,
+    });
     sendMessage(JSON.stringify(message));
   };
 
