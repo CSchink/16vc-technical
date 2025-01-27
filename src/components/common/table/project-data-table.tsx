@@ -1,7 +1,7 @@
 "use client";
 import { Paper } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
-import { useWS } from "src/hooks/use-web-sockets";
+import { useWS } from "../../../../hooks/use-web-sockets";
 
 type ProjectDataTableProps<T> = {
   data: T[];
@@ -12,8 +12,7 @@ type ProjectDataTableProps<T> = {
 
 export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
   const { columns, handleSelectedRecords } = props;
-
-  const {data} = useWS()
+  const { data } = useWS();
 
   return (
     <Paper shadow="md" withBorder p="md">
