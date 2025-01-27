@@ -28,8 +28,9 @@ export const useWS = () => {
       iTools.log(`Receiving message: ${msg}`);
       const data = getMessage(msg);
       if (data.edit) {
-        const update = messages.filter((msg) => {
-          return msg.id !== data.edit.id;
+        console.log(data.edit)
+        const update = messages.filter((message) => {
+          return message.id !== data.edit.id;
         });
         setLoading(true);
         setMessages(formatMessages([msg, ...update]));
