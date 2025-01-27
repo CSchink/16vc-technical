@@ -1,6 +1,6 @@
 # Team Collaboration App 
 
-Hosted on [Netlify](https://16vc-technical.netlify.app/)
+***Hosted on [Netlify](https://16vc-technical.netlify.app/)***
 
 ## Basic use cases implemented:
 
