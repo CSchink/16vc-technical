@@ -41,16 +41,6 @@ export const useWS = () => {
   };
 
   const editMessage = async (message: any) => {
-    const update = messages.filter((msg) => {
-      const objectFormat = getMessage(msg);
-      console.log(
-        isEqual(objectFormat.id, message.id),
-        objectFormat.id,
-        message.id
-      );
-      return !isEqual(objectFormat.id, message.id);
-    });
-    setMessages(formatMessages(update));
     const targetMessage = messages.find((msg) => {
       const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
@@ -59,6 +49,11 @@ export const useWS = () => {
       message: targetMessage,
       messageId: targetMessage?.id,
     });
+    const update = messages.filter((msg) => {
+      const objectFormat = getMessage(msg);
+      return !isEqual(objectFormat.id, message.id);
+    });
+    setMessages(formatMessages(update));
   };
 
   return {
