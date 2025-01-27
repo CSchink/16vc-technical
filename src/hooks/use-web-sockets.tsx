@@ -45,6 +45,7 @@ export const useWS = () => {
       const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
     });
+    console.log(update, targetMessage)
     await channel.presence.update({
       message: targetMessage,
       messageId: targetMessage?.id,
@@ -58,8 +59,7 @@ export const useWS = () => {
     data: messages
       .map((message: any) => {
         try {
-          const data = JSON.parse(message.data.message);
-          console.log(data);
+          const data = getMessage(message);
           if (data.status === "Deleted") {
             return null;
           }
