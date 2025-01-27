@@ -2,7 +2,6 @@ import { RingProgress } from "@mantine/core";
 import { TaskStatus } from "src/api/schemas/tasks.schemas";
 
 import { useEffect, useState } from "react";
-import { formatMessagesForUI, } from "./utils/helper";
 import { useWS } from "../../hooks/use-web-sockets";
 
 type ProgresCounterType = {
