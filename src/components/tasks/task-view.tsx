@@ -22,7 +22,6 @@ const TaskView = () => {
   };
 
   const handleEdit = (task: Task) => {
-    console.log(task)
     setTask(task);
   };
 
