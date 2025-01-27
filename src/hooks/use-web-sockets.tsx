@@ -59,6 +59,7 @@ export const useWS = () => {
       .map((message: any) => {
         try {
           const data = getMessage(message);
+          console.log(data.id)
           if (data.status === "Deleted") {
             return null;
           }
