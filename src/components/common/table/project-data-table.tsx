@@ -1,7 +1,7 @@
 "use client";
 import { Paper } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
-import { useEffect, useState } from "react";
+import { useWS } from "src/hooks/use-web-sockets";
 
 type ProjectDataTableProps<T> = {
   data: T[];
@@ -11,8 +11,9 @@ type ProjectDataTableProps<T> = {
 };
 
 export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
-  const { data, columns, selectedRecords, handleSelectedRecords } = props;
+  const { columns, handleSelectedRecords } = props;
 
+  const {data} = useWS()
 
   return (
     <Paper shadow="md" withBorder p="md">
@@ -24,7 +25,6 @@ export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
         striped
         noRecordsText={"Please add a task to begin"}
         highlightOnHover
-        selectedRecords={selectedRecords ?? undefined}
         onSelectedRecordsChange={handleSelectedRecords ?? undefined}
         records={data}
         columns={columns}
