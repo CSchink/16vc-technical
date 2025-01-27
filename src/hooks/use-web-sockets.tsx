@@ -46,7 +46,7 @@ export const useWS = () => {
       );
       return !isEqual(objectFormat.id, message.id);
     });
-
+    setMessages(update);
     const targetMessage = messages.find((msg) => {
       const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
@@ -55,7 +55,6 @@ export const useWS = () => {
       message: targetMessage,
       messageId: targetMessage?.id,
     });
-    setMessages(uniqueValues(update, "id"));
   };
 
   return {
