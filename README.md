@@ -50,10 +50,12 @@ manage high volume logging transactions.
 
 **Abstraction & DRY**.  Abstracting away error handling, data formatting, or form building into dedicated functions and / or components makes the replacement
 of libraries / frameworks / external APIs much less painful. Therefore, I implemented a hook for the WebSocket integration, 
-custom error handlers and a custom error boundary for the app.  If I had more time I would also implement a form factory in order
+custom error handlers, a custom error boundary, and props.onSubmit handlers for the app components.  If I had more time I would also implement a form factory in order
 to abstract away any sort of input into a dedicated abstraction layer. 
 
 **Code Splitting**.  Implemented code splitting of components through the Loadable framework and React Router. 
+
+**Moving State Down** In order to remove unnecessary re-renders from React I have done my best to push state management down into the components that require it.
 
 **Project MGMT and Design**  Before a single piece of code was written I reviewed all requirements and designed the MVP with usability in mind.  Issues were
 then created in order to methodically track the status of the project. From there I set out to complete the MVP and, once finished, tagged it as a [v0.1](https://github.com/CSchink/16vc-technical/releases) release.  Knowing the limitations with that implementation I then set out on a more interactive version with realtime WebSocket updates. I replaced the Web Socket integration with a more robust version, 
@@ -61,6 +63,7 @@ needing only to change some dependencies and update the React hook previously im
 
 **Signing Off**
 
-The build is not 100% complete and there is more testing and fine-tuning of the WebSocket integration to complete.  However, the project is designed in such 
-a way that adding new features and enhancing existing ones is made much easier through its solid foundation.  It has been a pleasure working on this project and I thank you
-for your consideration.
+The build is not 100% complete and there is more testing and fine-tuning of the WebSocket integration to complete.  However, the project has solid foundations and is designed in such 
+a way that adding new features and enhancing existing ones should be effortless.  
+
+It has been a pleasure working on this project and I thank you for your consideration.
