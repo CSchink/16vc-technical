@@ -4,7 +4,7 @@ import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
 import { useChannel, useConnectionStateListener } from "ably/react";
-import { uniqueValues } from "src/components/common/utils/helper";
+import { uniqueValues } from "../components/common/utils/helper";
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
