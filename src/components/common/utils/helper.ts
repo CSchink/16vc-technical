@@ -1,7 +1,7 @@
 import { Message } from "ably";
 import { handleException } from "./handle-error";
 import { Task } from "../../../api/schemas/tasks.schemas";
-import { ulid } from "ulid";
+
 /**
  * Helper function to format Web Socket messages into
  * an array of Tasks
@@ -16,9 +16,9 @@ export const formatMessages = (messages: Message[]): Message[] => {
         if (data.status === "Deleted") {
           return null;
         }
-        const id = ulid();
-        data.id = id;
-        message.id = id;
+        const id = message.id;
+        if (!data.id) data.id = id;
+        if (!message.id) message.id = id;
         return message;
       } catch (e) {
         if (e) {

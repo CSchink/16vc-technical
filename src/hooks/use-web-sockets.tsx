@@ -16,8 +16,8 @@ export const useWS = () => {
   const [readyState, setReadyState] = useState<
     Ably.ConnectionStateChange | undefined
   >(undefined);
-  const { publish, channel } = useChannel(CHANNELS.tasks, (msg) => {
-    iTools.log(`Receiving message: ${msg}`);
+  const { publish } = useChannel(CHANNELS.tasks, (msg) => {
+    iTools.log(`Receiving message: ${readyState}`);
     const data = getMessage(msg);
     if (data.edit) {
       const update = messages.filter((msg) => {
@@ -38,28 +38,6 @@ export const useWS = () => {
       setReadyState(stateChange);
     }
   });
-
-  useEffect(() => {
-    const getMessages = async () => {
-      await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
-        iTools.log(`Receiving message: ${msg}`);
-        const data = getMessage(msg);
-        if (data.edit) {
-          const update = messages.filter((msg) => {
-            return msg.id !== data.edit.id;
-          });
-          setLoading(true);
-          setMessages(formatMessages([msg, ...update]));
-          setLoading(false);
-          return;
-        }
-        setLoading(true);
-        setMessages((prev) => formatMessages([...prev, msg]));
-        setLoading(false);
-      });
-    };
-    getMessages();
-  }, [readyState, channel, messages]);
 
   const sendMessage = (messageText: any) => {
     iTools.log(`Sending message: ${messageText}`);
