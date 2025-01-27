@@ -12,7 +12,7 @@ export const formatMessages = (messages: Message[]): Message[] => {
     .map((message: any) => {
       try {
         const data = getMessage(message);
-        if (data.status === "Deleted" || data.edit) {
+        if (data.status === "Deleted") {
           return null;
         }
         const id = message.id;
