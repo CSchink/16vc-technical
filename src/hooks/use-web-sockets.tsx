@@ -60,8 +60,8 @@ export const useWS = () => {
       id: message.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
-    const update = messages.filter((message) => {
-      return message.id !== data.edit.id;
+    const update = messages.filter((msg) => {
+      return msg.id !== message.edit.id;
     });
     setLoading(true);
     setMessages(update);
