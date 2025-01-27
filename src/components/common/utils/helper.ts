@@ -8,24 +8,27 @@ import { handleException } from "./handle-error";
  * @returns array of messages formatted for display
  */
 export const formatMessages = (messages: Message[]): Message[] => {
-  return messages
-    .map((message: any) => {
-      try {
-        const data = getMessage(message);
-        if (data.status === "Deleted") {
-          return null;
+  return uniqueValues(
+    messages
+      .map((message: any) => {
+        try {
+          const data = getMessage(message);
+          if (data.status === "Deleted") {
+            return null;
+          }
+          const id = message.id;
+          if (!data.id) data.id = id;
+          if (!message.id) message.id = id;
+          return message;
+        } catch (e) {
+          if (e) {
+            return null;
+          }
         }
-        const id = message.id;
-        if (!data.id) data.id = id;
-        if (!message.id) message.id = id;
-        return message;
-      } catch (e) {
-        if (e) {
-          return null;
-        }
-      }
-    })
-    .filter(Boolean);
+      })
+      .filter(Boolean),
+    "id"
+  );
 };
 
 /**
@@ -35,18 +38,21 @@ export const formatMessages = (messages: Message[]): Message[] => {
  * @returns array of messages formatted for display
  */
 export const formatMessagesForUI = (messages: Message[]): Message[] => {
-  return messages
-    .map((message: any) => {
-      try {
-        const data = getMessage(message);
-        return data;
-      } catch (e) {
-        if (e) {
-          return null;
+  return uniqueValues(
+    messages
+      .map((message: any) => {
+        try {
+          const data = getMessage(message);
+          return data;
+        } catch (e) {
+          if (e) {
+            return null;
+          }
         }
-      }
-    })
-    .filter(Boolean);
+      })
+      .filter(Boolean),
+    "id"
+  );
 };
 
 export const uniqueValues = (array: any[], key: string | number) => {
