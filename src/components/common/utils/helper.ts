@@ -1,6 +1,6 @@
 import { Message } from "ably";
 import { handleException } from "./handle-error";
-import { ulid } from "ulid";
+
 /**
  * Helper function to format Web Socket messages into
  * an array of Tasks
@@ -8,27 +8,24 @@ import { ulid } from "ulid";
  * @returns array of messages formatted for display
  */
 export const formatMessages = (messages: Message[]): Message[] => {
-  return uniqueValues(
-    messages
-      .map((message: any) => {
-        try {
-          const data = getMessage(message);
-          if (data.status === "Deleted") {
-            return null;
-          }
-          const id = ulid();
-          if (!data.id) data.projectId = id;
-          message.id = id;
-          return message;
-        } catch (e) {
-          if (e) {
-            return null;
-          }
+  return messages
+    .map((message: any) => {
+      try {
+        const data = getMessage(message);
+        if (data.status === "Deleted") {
+          return null;
         }
-      })
-      .filter(Boolean),
-    "id"
-  );
+        const id = message.id;
+        if (!data.id) data.id = id;
+        if (!message.id) message.id = id;
+        return message;
+      } catch (e) {
+        if (e) {
+          return null;
+        }
+      }
+    })
+    .filter(Boolean);
 };
 
 /**
@@ -38,21 +35,18 @@ export const formatMessages = (messages: Message[]): Message[] => {
  * @returns array of messages formatted for display
  */
 export const formatMessagesForUI = (messages: Message[]): Message[] => {
-  return uniqueValues(
-    messages
-      .map((message: any) => {
-        try {
-          const data = getMessage(message);
-          return data;
-        } catch (e) {
-          if (e) {
-            return null;
-          }
+  return messages
+    .map((message: any) => {
+      try {
+        const data = getMessage(message);
+        return data;
+      } catch (e) {
+        if (e) {
+          return null;
         }
-      })
-      .filter(Boolean),
-    "id"
-  );
+      }
+    })
+    .filter(Boolean);
 };
 
 export const uniqueValues = (array: any[], key: string | number) => {
