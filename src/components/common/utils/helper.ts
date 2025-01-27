@@ -37,7 +37,7 @@ export const formatMessages = (messages: Message[]): Message[] => {
  */
 export const formatMessagesForUI = (messages: Message[]): Task[] => {
   return messages
-    .map((message: any, index: number) => {
+    .map((message: any) => {
       try {
         const data = getMessage(message);
         if (data.status === "Deleted") {
@@ -45,19 +45,8 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
         }
 
         if (data.edit) {
-          const target = messages.find((item: any) => item.id === data.edit.id);
-          if (target) {
-            const latest = messages.find(
-              (item: any) =>
-                item.createdAt ===
-                Math.max(target.createdAt ?? 0, messages[index].createdAt ?? 0)
-            );
-            if (latest) {
-              const newData = getMessage(latest);
-              const id = message.id;
-              newData.id = id;
-              return newData;
-            }
+          if (data.edit.id !== message.id) {
+            return null;
           }
         }
         const id = message.id;

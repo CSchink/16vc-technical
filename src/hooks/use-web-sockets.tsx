@@ -28,7 +28,6 @@ export const useWS = () => {
       const data = getMessage(msg);
       if (data.edit) {
         const update = messages.filter((message) => {
-          console.log(message.id !== data.edit.id)
           return message.id !== data.edit.id;
         });
         setLoading(true);
