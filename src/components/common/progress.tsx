@@ -13,12 +13,12 @@ type ProgresCounterType = {
 };
 
 export default function ProgressCounter() {
-    const { messageHistory } = useWS();
+    const { data } = useWS();
     const [totals, setTotals] = useState<ProgresCounterType[]>([]);
 
     useEffect(() => {
-      if (messageHistory.length) {
-        const refinedData = formatMessagesForUI(messageHistory);
+      if (data.length) {
+     
         const statuses: ProgresCounterType[] = [
           { status: "ToDo", color: "red", tooltip: "ToDo", value: 0 },
           {
@@ -30,16 +30,16 @@ export default function ProgressCounter() {
           { status: "Completed", color: "green", tooltip: "Completed", value: 0 },
         ];
         const counts = statuses.map((item: ProgresCounterType) => {
-          const total = refinedData.reduce(
+          const total = data.reduce(
             (acc, cur) => (cur.status === item.status ? ++acc : acc),
             0
           );
-          item.value = total * 100;
+          item.value = total * 20;
           return item;
         });
         setTotals(counts);
       }
-    }, [messageHistory, totals, totals.length]);
+    }, [data, totals, totals.length]);
 
   return <RingProgress size={120} thickness={12} roundCaps sections={totals} />;
 }
