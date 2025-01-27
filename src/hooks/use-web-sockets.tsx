@@ -4,7 +4,6 @@ import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
 import { useChannel, useConnectionStateListener } from "ably/react";
 import {
-  formatMessages,
   formatMessagesForUI,
   getMessage,
 } from "../components/common/utils/helper";
@@ -33,17 +32,13 @@ export const useWS = () => {
           return message.id !== data.edit.id;
         });
         setLoading(true);
-        setMessages(formatMessages([msg, ...update]).filter(
-          (item: any) => item.id && getMessage(item).id
-        ));
+        setMessages([msg, ...update]);
         setLoading(false);
         return;
       }
       setLoading(true);
       setMessages((prev) =>
-        formatMessages([...prev, msg]).filter(
-          (item: any) => item.id && getMessage(item).id
-        )
+        [...prev, msg]
       );
       setLoading(false);
     });
