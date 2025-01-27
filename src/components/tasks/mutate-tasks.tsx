@@ -27,7 +27,6 @@ export const MutateTask = (props: {
         <form
           onSubmit={form.onSubmit(
             (values) => {
-              console.log(values);
               props.onSubmit(values, isEditing);
               form.reset();
               close();

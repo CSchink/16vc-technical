@@ -44,9 +44,7 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
           return null;
         }
         const id = message.id;
-        console.log(id);
         if (!data.id) data.id = id;
-        console.log(id, data.id);
         return data;
       } catch (e) {
         if (e) {
