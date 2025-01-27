@@ -27,11 +27,9 @@ export const useWS = () => {
       iTools.log(`Receiving message: ${msg}`);
       const data = getMessage(msg);
       if (data.edit) {
-        console.log(data.edit);
         const update = messages.filter((message) => {
           return message.id !== data.edit.id;
         });
-        console.log(update)
         setLoading(true);
         setMessages([msg, ...update]);
         setLoading(false);
@@ -58,11 +56,15 @@ export const useWS = () => {
   };
 
   const editMessage = async (message: any) => {
-    console.log(message);
     message.edit = {
       id: message.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
+    const update = messages.filter((message) => {
+      return message.id !== data.edit.id;
+    });
+    setLoading(true);
+    setMessages(update);
     channel.presence.update({
       messageId: message.id,
       message
