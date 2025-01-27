@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { ulid } from "ulid";
 import * as Ably from "ably";
-import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
 import { useChannel, useConnectionStateListener } from "ably/react";
+import {
+  formatMessages,
+  formatMessagesForUI,
+  getMessage,
+} from "../components/common/utils/helper";
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
@@ -12,54 +15,55 @@ export const useWS = () => {
     Ably.ConnectionStateChange | undefined
   >(undefined);
   const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
-    setMessages((prev) => [...prev, message]);
+    iTools.log(JSON.stringify(message));
   });
 
   useConnectionStateListener((stateChange) => {
-    console.log(readyState);
-    console.log(channel);
-    if (readyState) {
+    if (stateChange) {
       setReadyState(stateChange);
     }
   });
 
   useEffect(() => {
     const getMessages = async () => {
-      await channel.subscribe((msg: Ably.Message) => {
-        console.log("Ably message received", msg);
+      await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
+        iTools.log(`Receiving message: ${msg}`);
+        const data = getMessage(msg);
+        if (data.edit) {
+          const update = messages.filter((msg) => {
+            return msg.id !== data.edit.id;
+          });
+          setMessages(formatMessages([msg, ...update]));
+          return;
+        }
+        setMessages((prev) => formatMessages([...prev, msg]));
       });
     };
-    if (readyState) {
-      getMessages();
-    }
-  }, [readyState, channel]);
+    getMessages();
+  }, [readyState, channel, messages]);
 
   const sendMessage = (messageText: any) => {
     iTools.log(`Sending message: ${messageText}`);
     publish(CHANNELS.tasks, { message: messageText });
   };
 
-  const editMessage = (message: any) => {
-    const update = messages.filter((msg) => !isEqual(msg, message));
-    setMessages(update);
+  const editMessage = async (message: any) => {
+    const targetMessage = messages.find((msg) => {
+      const objectFormat = getMessage(msg);
+      console.log(objectFormat);
+      return objectFormat.id === message.id;
+    });
+    message.edit = {
+      id: targetMessage?.id,
+      action: message.status === "Deleted" ? "DELETE" : "EDIT",
+    };
+    sendMessage(JSON.stringify(message));
   };
 
   return {
     sendMessage,
     messageHistory: messages,
-    data: messages
-      .map((message: any) => {
-        try {
-          const data = JSON.parse(message.data.message);
-          if (!data.id) data.id = ulid();
-          return data;
-        } catch (e) {
-          if (e) {
-            return null;
-          }
-        }
-      })
-      .filter(Boolean),
+    data: formatMessagesForUI(messages),
     editMessage,
   };
 };

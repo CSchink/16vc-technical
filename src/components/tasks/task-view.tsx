@@ -50,8 +50,12 @@ const TaskView = () => {
       },
     },
     {
+      accessor: "id",
+      width: 50
+    },
+    {
       accessor: "actions",
-      width: 200,
+      width: 50,
       render: (task: Task) => {
         const actions = ["edit"];
         return (
