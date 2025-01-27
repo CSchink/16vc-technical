@@ -53,6 +53,7 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
             const alreadyAdded = getMessage(target);
             alreadyAdded.added = true;
             target.data.message = alreadyAdded;
+            data.edit.added = true;
           }
         }
         const id = message.id;
