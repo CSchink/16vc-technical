@@ -55,6 +55,7 @@ export const useWS = () => {
   };
 
   const editMessage = async (message: any) => {
+    console.log(message)
     message.edit = {
       id: message.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
