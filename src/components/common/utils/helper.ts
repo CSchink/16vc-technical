@@ -35,9 +35,9 @@ export const formatMessages = (messages: Message[]): Message[] => {
  * @param message
  * @returns array of messages formatted for display
  */
-export const formatMessagesForUI = (messages: Message[], index: number): Task[] => {
+export const formatMessagesForUI = (messages: Message[]): Task[] => {
   return messages
-    .map((message: any) => {
+    .map((message: any, index: number) => {
       try {
         const data = getMessage(message);
         if (data.status === "Deleted") {
