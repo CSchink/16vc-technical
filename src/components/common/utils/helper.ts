@@ -17,7 +17,7 @@ export const formatMessages = (messages: Message[]): Message[] => {
           return null;
         }
         const id = message.id;
-        if (!data.id) data.id = id;
+        data.id = id;
         if (!message.id) message.id = id;
         return message;
       } catch (e) {
@@ -44,7 +44,7 @@ export const formatMessagesForUI = (messages: Message[]): Task[] => {
           return null;
         }
         const id = message.id;
-        if (!data.id) data.id = id;
+        data.id = id;
         return data;
       } catch (e) {
         if (e) {
