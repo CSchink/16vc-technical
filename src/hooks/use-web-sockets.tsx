@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ulid } from "ulid";
 import * as Ably from "ably";
 import { isEqual } from "lodash";
 import { CHANNELS } from "../api/schemas/ws.schemas";
 import iTools from "../api/utils/i-tools";
 import { useChannel, useConnectionStateListener } from "ably/react";
+import { uniqueValues } from "src/components/common/utils/helper";
 
 export const useWS = () => {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
@@ -24,8 +24,8 @@ export const useWS = () => {
   useEffect(() => {
     const getMessages = async () => {
       await channel.subscribe(CHANNELS.tasks, (msg: Ably.Message) => {
-        console.log(msg);
-        setMessages((prev) => [...prev, msg]);
+        iTools.log(`Receiving message: ${msg}`);
+        setMessages((prev) => uniqueValues([...prev, msg], "id"));
       });
     };
     getMessages();
@@ -39,8 +39,8 @@ export const useWS = () => {
   const editMessage = async (message: any) => {
     const update = messages.filter((msg) => {
       console.log(msg, message);
-      const objectFormat = JSON.parse(msg.data);
-      return !isEqual(objectFormat.id, message.id);
+      const objectFormat = JSON.stringify(msg.data);
+      return !isEqual(JSON.parse(objectFormat).id, message.id);
     });
     const targetMessage = messages.find((msg) => {
       const objectFormat = JSON.parse(msg.data);
@@ -63,7 +63,7 @@ export const useWS = () => {
           if (data.status === "Deleted") {
             return null;
           }
-          const id = ulid();
+          const id = message.id;
           if (!data.id) data.id = id;
           if (!message.id) message.id = id;
           return data;

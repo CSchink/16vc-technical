@@ -28,3 +28,7 @@ export const messageToTableFormatter = (messages: any): Task[] => {
     })
     .filter(Boolean);
 };
+
+export const uniqueValues = (array: any[], key: string | number) => {
+  return [...new Map(array.map((item: any) => [item[key], item])).values()];
+};
