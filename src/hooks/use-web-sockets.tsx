@@ -45,12 +45,11 @@ export const useWS = () => {
       const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
     });
-    console.log(update, targetMessage)
     await channel.presence.update({
       message: targetMessage,
       messageId: targetMessage?.id,
     });
-    setMessages(update);
+    setMessages(uniqueValues(update, "id"));
   };
 
   return {
