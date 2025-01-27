@@ -37,7 +37,7 @@ export const useWS = () => {
         return;
       }
       setLoading(true);
-      setMessages(() => formatMessages([msg]));
+      setMessages((prev) => formatMessages([...prev, msg]));
       setLoading(false);
     });
   }, [channel, messages]);
