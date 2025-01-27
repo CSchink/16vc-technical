@@ -27,7 +27,7 @@ Hosted on [Netlify](https://16vc-technical.netlify.app/)
 
 ## Technical implementation
 
-### Implemented using React + TypeScript + Vite
+### Implemented using React + TypeScript + Vite, with Github Issues for project mgmt
 
 - Vite for hot reloading, fast development, quick implentation
 - TypeScript a must for typeguarding against exceptions and providing a faster and more efficient developer experience
@@ -37,6 +37,7 @@ Hosted on [Netlify](https://16vc-technical.netlify.app/)
 - Session context in order to simulate the need for user-based app responsiveness (permissions, views, etc)
 - CI/CD with GitHub Actions and Netlify for integrated testing and deployments
 - Mantine for fast, professional styling
+- Project planning completed before a single piece of code was written, then documented in Github issues for tracking 
 
 ### Thought process
 
@@ -53,3 +54,8 @@ custom error handlers and a custom error boundary for the app.  If I had more ti
 to abstract away any sort of input into a dedicated abstraction layer. 
 
 **Code Splitting**.  Implemented code splitting of components through the Loadable framework and React Router. 
+
+**Project MGMT and Design**  Before a single piece of code was written I reviewed all requirements and designed the MVP with usability in mind.  Issues were
+then created in order to methodically track the status of the project. From there I set out to complete the MVP and, once finished, tagged it as a [v0.1](https://github.com/CSchink/16vc-technical/releases) release.  
+Knowing the limitations with that implementation I then set out on a more interactive version with realtime WebSocket updates. I replaced the Web Socket integration with a more robust version, 
+needing only to change some dependencies and update the React hook previously implemented. 
