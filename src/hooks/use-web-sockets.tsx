@@ -44,6 +44,10 @@ export const useWS = () => {
       });
     };
     getMessages();
+
+    return () => {
+      channel.unsubscribe();
+    };
   }, [readyState, channel, messages]);
 
   const sendMessage = (messageText: any) => {
