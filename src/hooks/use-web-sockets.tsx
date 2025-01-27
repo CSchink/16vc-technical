@@ -7,7 +7,6 @@ import {
   formatMessages,
   formatMessagesForUI,
   getMessage,
-  uniqueValues,
 } from "../components/common/utils/helper";
 
 export const useWS = () => {
