@@ -7,7 +7,6 @@ import {
   formatMessages,
   formatMessagesForUI,
   getMessage,
-  uniqueValues,
 } from "../components/common/utils/helper";
 
 export const useWS = () => {
@@ -18,12 +17,6 @@ export const useWS = () => {
   const { publish, channel } = useChannel(CHANNELS.tasks, (message) => {
     iTools.log(JSON.stringify(message));
   });
-
-  useEffect(() => {
-    if (messages.length) {
-      setMessages(uniqueValues(messages, "id"));
-    }
-  }, [messages]);
 
   useConnectionStateListener((stateChange) => {
     if (readyState) {
