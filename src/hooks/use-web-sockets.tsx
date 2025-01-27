@@ -33,6 +33,7 @@ export const useWS = () => {
         if (data.edit) {
           const update = messages.filter((msg) => msg.id !== data.edit.id);
           setMessages(formatMessages([msg, ...update]));
+          return;
         }
         setMessages((prev) => formatMessages([...prev, msg]));
       });
@@ -54,7 +55,7 @@ export const useWS = () => {
       id: targetMessage?.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
-    publish(CHANNELS.tasks, { message: JSON.stringify(message) });
+    sendMessage(JSON.stringify(message));
   };
 
   return {
