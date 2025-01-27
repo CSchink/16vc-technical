@@ -34,7 +34,7 @@ export default function ProgressCounter() {
             (acc, cur) => (cur.status === item.status ? ++acc : acc),
             0
           );
-          item.value = total;
+          item.value = total * 100;
           return item;
         });
         setTotals(counts);
