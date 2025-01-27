@@ -11,8 +11,8 @@ Hosted on [Netlify](https://16vc-technical.netlify.app/)
 - Confirm task appears in both tabs
 - Mutate task
 - Confirm mutation happens simultaneously in both tabs
-- Currently facing issues with duplicate messages / state when changing a task's status
-- 
+- *Currently facing issues with duplicate messages / state when changing a task's status*
+  
 ### Task View:
 
 - List of tasks in a table format with table actions for marking a task as deleted or completed.
