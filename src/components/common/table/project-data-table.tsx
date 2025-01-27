@@ -12,9 +12,7 @@ type ProjectDataTableProps<T> = {
 
 export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
   const { data, columns, selectedRecords, handleSelectedRecords } = props;
-  const [tableData, setTableData] = useState<any>(
-    data.filter((item: any) => item && item.id)
-  );
+  const [tableData, setTableData] = useState<any>([]);
 
   useEffect(() => {
     if (data.length) {
