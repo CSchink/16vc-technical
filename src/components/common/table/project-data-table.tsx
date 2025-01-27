@@ -12,13 +12,8 @@ type ProjectDataTableProps<T> = {
 
 export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
   const { data, columns, selectedRecords, handleSelectedRecords } = props;
-  const [tableData, setTableData] = useState<any>([]);
 
-  useEffect(() => {
-    if (data.length) {
-      setTableData(data.filter((item: any) => item && item.id && !item.edit));
-    }
-  }, [data]);
+
   return (
     <Paper shadow="md" withBorder p="md">
       <DataTable
@@ -29,9 +24,9 @@ export default function ProjectDataTable<T>(props: ProjectDataTableProps<T>) {
         striped
         noRecordsText={"Please add a task to begin"}
         highlightOnHover
-        selectedRecords={selectedRecords}
-        onSelectedRecordsChange={handleSelectedRecords}
-        records={tableData}
+        selectedRecords={selectedRecords ?? undefined}
+        onSelectedRecordsChange={handleSelectedRecords ?? undefined}
+        records={data}
         columns={columns}
       />
     </Paper>
