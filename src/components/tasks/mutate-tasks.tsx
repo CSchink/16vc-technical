@@ -15,7 +15,6 @@ export const MutateTask = (props: {
 
   useEffect(() => {
     if (task) {
-      console.log(task)
       form.setValues(task);
       open();
     }
