@@ -37,10 +37,12 @@ export const useWS = () => {
   };
 
   const editMessage = async (message: any) => {
+    sendMessage(JSON.stringify(message));
     const update = messages.filter((msg) => {
       const objectFormat = getMessage(msg);
       return !isEqual(objectFormat.id, message.id);
     });
+
     const targetMessage = messages.find((msg) => {
       const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
@@ -59,7 +61,7 @@ export const useWS = () => {
       .map((message: any) => {
         try {
           const data = getMessage(message);
-          console.log(data.id)
+          console.log(data.id);
           if (data.status === "Deleted") {
             return null;
           }
