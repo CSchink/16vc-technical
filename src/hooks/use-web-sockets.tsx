@@ -52,14 +52,13 @@ export const useWS = () => {
   const editMessage = async (message: any) => {
     const targetMessage = messages.find((msg) => {
       const objectFormat = getMessage(msg);
-      return isEqual(objectFormat.id, message.id);
+      return objectFormat.id === message.id
     });
     message.edit = {
       id: targetMessage?.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
     };
     const update = messages.filter((msg) => {
-      console.log(msg.id, message.edit.id)
       return msg.id !== message.edit.id;
     });
     setMessages(formatMessages([message, ...update]));
