@@ -11,6 +11,7 @@ export const formatMessages = (messages: Message[]): Message[] => {
   return messages
     .map((message: any) => {
       try {
+        console.log(message)
         const data = getMessage(message);
         if (data.status === "Deleted") {
           return null;
