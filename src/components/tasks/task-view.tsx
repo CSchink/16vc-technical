@@ -7,6 +7,7 @@ import { Loader, Stack } from "@mantine/core";
 import { TableColumn } from "src/api/schemas/table.schemas";
 import { TableActions } from "../common/table/project-table-actions";
 import PageTitle from "../common/title";
+import ProgressCounter from "../common/progress";
 
 const TaskView = () => {
   const { sendMessage, editMessage, data, loading } = useWS();
@@ -73,6 +74,7 @@ const TaskView = () => {
         justify="center"
         style={{ minHeight: "500px" }}
       >
+        <ProgressCounter />
         <MutateTask onSubmit={handleTaskSubmit} task={task} />
         <ProjectDataTable data={tableData ?? []} columns={columns ?? []} />
       </Stack>
