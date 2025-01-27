@@ -8,11 +8,12 @@ import { TableColumn } from "src/api/schemas/table.schemas";
 import { TableActions } from "../common/table/project-table-actions";
 import PageTitle from "../common/title";
 import ProgressCounter from "../common/progress";
+import { uniqueValues } from "../common/utils/helper";
 
 const TaskView = () => {
   const { sendMessage, editMessage, data, loading } = useWS();
   const [task, setTask] = useState<Task | undefined>(undefined);
-  const tableData = useMemo(() => data, [data]);
+  const tableData = useMemo(() => uniqueValues(data, "id"), [data]);
   //Transform task for WebSocket transfer
   const handleTaskSubmit = (task: Task, isEditing: boolean): void => {
     if (isEditing) {
