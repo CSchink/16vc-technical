@@ -42,7 +42,7 @@ export const useWS = () => {
       return !isEqual(objectFormat.id, message.id);
     });
     const targetMessage = messages.find((msg) => {
-      const objectFormat = JSON.parse(msg.data);
+      const objectFormat = getMessage(msg);
       return isEqual(objectFormat.id, message.id);
     });
     await channel.presence.update({

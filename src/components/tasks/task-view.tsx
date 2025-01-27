@@ -18,6 +18,7 @@ const TaskView = () => {
       editMessage(task);
       setTask(undefined);
     }
+    console.log(task)
     sendMessage(JSON.stringify(task));
   };
 
