@@ -32,7 +32,7 @@ export const useWS = () => {
         const data = getMessage(msg);
         if (data.edit) {
           const update = messages.filter((msg) => {
-            console.log(msg.id, data.edit.id)
+            console.log(msg.id !== data.edit.id)
             return msg.id !== data.edit.id;
           });
           setMessages(formatMessages([msg, ...update]));
