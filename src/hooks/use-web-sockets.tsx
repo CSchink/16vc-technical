@@ -60,25 +60,7 @@ export const useWS = () => {
   return {
     sendMessage,
     messageHistory: messages,
-    data: messages
-      .map((message: any) => {
-        try {
-          const data = getMessage(message);
-          console.log(data.id);
-          if (data.status === "Deleted") {
-            return null;
-          }
-          const id = message.id;
-          if (!data.id) data.id = id;
-          if (!message.id) message.id = id;
-          return data;
-        } catch (e) {
-          if (e) {
-            return null;
-          }
-        }
-      })
-      .filter(Boolean),
+    data: messages,
     editMessage,
   };
 };
