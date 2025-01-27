@@ -17,7 +17,7 @@ export const formatMessages = (messages: Message[]): Message[] => {
           return null;
         }
         const id = ulid();
-        if (!data.id) data.id = id;
+        data.id = id;
         message.id = id;
         return message;
       } catch (e) {
