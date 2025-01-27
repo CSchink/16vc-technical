@@ -1,4 +1,3 @@
-"use client";
 import { Paper } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
 import { useWS } from "../../../hooks/use-web-sockets";
