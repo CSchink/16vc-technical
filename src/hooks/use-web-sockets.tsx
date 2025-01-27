@@ -28,17 +28,23 @@ export const useWS = () => {
       iTools.log(`Receiving message: ${msg}`);
       const data = getMessage(msg);
       if (data.edit) {
-        console.log(data.edit)
+        console.log(data.edit);
         const update = messages.filter((message) => {
           return message.id !== data.edit.id;
         });
         setLoading(true);
-        setMessages(formatMessages([msg, ...update]));
+        setMessages(formatMessages([msg, ...update]).filter(
+          (item: any) => item.id && getMessage(item).id
+        ));
         setLoading(false);
         return;
       }
       setLoading(true);
-      setMessages((prev) => formatMessages([...prev, msg]));
+      setMessages((prev) =>
+        formatMessages([...prev, msg]).filter(
+          (item: any) => item.id && getMessage(item).id
+        )
+      );
       setLoading(false);
     });
   }, [channel, messages]);
@@ -56,7 +62,7 @@ export const useWS = () => {
   };
 
   const editMessage = async (message: any) => {
-    console.log(message)
+    console.log(message);
     message.edit = {
       id: message.id,
       action: message.status === "Deleted" ? "DELETE" : "EDIT",
